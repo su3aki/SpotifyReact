@@ -3,15 +3,14 @@ import axios from "axios";
 
 const App = () => {
   const [token, setToken] = useState("")
-  const [artists, setArtists] = useState({ artistsName: "", artistsId: "" })
+  const [artists, setArtists] = useState({ artistsName: "", artistsgenres: "" })
   const [FormData, setFormData] = useState("")
-  //検索ボタンの機能
-  //Formに入力されたIDを元にアーティスト名を取得
   //form中身の変更内容取得
   const handleFormChange = (event) => {
     console.log(event.target.value)
     setFormData(event.target.value)
   }
+  //アクセストークン取得
   useEffect(() => {
     axios("https://accounts.spotify.com/api/token", {
       headers: {
@@ -26,7 +25,8 @@ const App = () => {
       console.log(tokenResponse.data.access_token)
     })
   }, [])
-  //アクセストークン取得
+  //検索ボタンの機能
+  //Formに入力されたIDを元にアーティスト名を取得
   const addFormData = (event) => {
     event.preventDefault()
     console.log('clickd', event.target)
@@ -36,7 +36,7 @@ const App = () => {
     }).then((artistsResponse) => {
       setArtists({
         artistsName: artistsResponse.data.name,
-        artistsId: artistsResponse.data.id
+        artistsgenres: artistsResponse.data.genres
       })
     })
     setFormData('')
@@ -44,7 +44,7 @@ const App = () => {
     return (
       <div>
         <h2>{artists.artistsName}</h2>
-        <h2>{artists.artistsId}</h2>
+        <h2>{artists.artistsgenres}</h2>
         <form onSubmit={addFormData}>
           <input
             value={FormData}
