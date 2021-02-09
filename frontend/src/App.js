@@ -1,58 +1,102 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
+import Button from '@material-ui/core/Button'
+import SplitButton from './components/SplitButton'
 
 const App = () => {
   const [token, setToken] = useState("")
-  const [artists, setArtists] = useState({ artistsName: "", artistsgenres: "" })
-  const [FormData, setFormData] = useState("")
-  //form中身の変更内容取得
-  const handleFormChange = (event) => {
-    console.log(event.target.value)
-    setFormData(event.target.value)
-  }
+  const [artists, setArtists] = useState({ artistsJsonData:[], artistsName: "", artistsGenres: "",artistsPopularity: "" })
+  const [IdFormData, setIdFormData] = useState("")
+  const [SearchFormData, setSearchFormData] = useState("")
   //アクセストークン取得
   useEffect(() => {
     axios("https://accounts.spotify.com/api/token", {
+      method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         'Authorization':
         "Basic " + btoa(process.env.REACT_APP_clientId + ":" + process.env.REACT_APP_clientSecret)
       },
-      data: "grant_type=client_credentials",
-      method: "POST"
+      data: "grant_type=client_credentials"
     }).then((tokenResponse) => {
       setToken(tokenResponse.data.access_token)
       console.log(tokenResponse.data.access_token)
     })
   }, [])
-  //検索ボタンの機能
-  //Formに入力されたIDを元にアーティスト名を取得
-  const addFormData = (event) => {
+  //ID検索ボタンの機能
+  //IDFormに入力されたIDを元にアーティスト名を取得
+  const addIdFormData = (event) => {
     event.preventDefault()
-    console.log('clickd', event.target)
-    axios(`https://api.spotify.com/v1/artists/${FormData}`, {
+    console.log('RUN ID Fetch', event.target)
+    axios(`https://api.spotify.com/v1/artists/${IdFormData}`, {
       method: "GET",
-      headers: { 'Authorization': "Bearer " + token },
+      headers: {
+        'Authorization': "Bearer " + token
+      },
     }).then((artistsResponse) => {
       setArtists({
         artistsName: artistsResponse.data.name,
-        artistsgenres: artistsResponse.data.genres
+        artistsGenres: artistsResponse.data.genres,
+        artistsPopularity: artistsResponse.data.popularity
       })
     })
-    setFormData('')
+    setIdFormData('')
   }
-    return (
-      <div>
-        <h2>{artists.artistsName}</h2>
-        <h2>{artists.artistsgenres}</h2>
-        <form onSubmit={addFormData}>
-          <input
-            value={FormData}
-            onChange={handleFormChange}
+  //Idform中身の変更内容取得
+  const handleFormChange = (event) => {
+    console.log(event.target.value)
+    setIdFormData(event.target.value)
+  }
+  //単語検索ボタンの機能
+  //SearchFormに入力された単語を元にアーティスト名を取得
+  const addSearchFormData = (event) => {
+    event.preventDefault()
+    console.log('RUN WORD Search', event.target)
+    axios(`https://api.spotify.com/v1/search?q=${SearchFormData}&type=artist&limit=3`, {
+      method: "GET",
+      headers: {
+        'Authorization': "Bearer " + token
+      },
+    }).then((artistsResponse) => {
+      console.log(artistsResponse.data)
+      //検索結果を変数に登録
+      setArtists({
+        artistsJsonData: artistsResponse.data["artists"]
+
+      })
+    })
+    setSearchFormData('')
+  }
+  //Searchform中身の変更内容取得
+  const handleSearchFormChange = (event) => {
+    console.log(event.target.value)
+    setSearchFormData(event.target.value)
+  }
+  SplitButton
+
+  return (
+    <div>
+      <h1>ID検索</h1>
+      <form onSubmit={addIdFormData}>
+        <input
+          value={ IdFormData }
+          onChange={handleFormChange}
           />
-          <button type="submit">検索</button>
-        </form>
-      </div>
+        <Button variant="contained" color="primary" type="submit">GO!</Button>
+      </form>
+      <h2>アーティスト名：{ artists.artistsName }</h2>
+      <h2>ジャンル：{ artists.artistsGenres }</h2>
+      <h2>人気パラメータ：{ artists.artistsPopularity }</h2>
+      <h1>アーティスト名検索</h1>
+      <form onSubmit={ addSearchFormData }>
+        <input
+          value={ SearchFormData }
+          onChange={ handleSearchFormChange }
+        />
+        <Button variant="contained" color="primary" type="submit">GO!</Button>
+      </form>
+      <h2>クソ長い検索結果：{ [artists.artistsJsonData] }</h2>
+    </div>
     )
   }
 export default App;
