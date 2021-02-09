@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import axios from "axios";
+import React, { useState, useEffect } from 'react'
+import axios from "axios"
 import Button from '@material-ui/core/Button'
 import SplitButton from './components/SplitButton'
+import TextField from '@material-ui/core/TextField'
 
 const App = () => {
   const [token, setToken] = useState("")
-  const [artists, setArtists] = useState({ artistsJsonData:[], artistsName: "", artistsGenres: "",artistsPopularity: "" })
+  const [artists, setArtists] = useState({ artistsJsonData: "", artistsName: "", artistsGenres: "",artistsPopularity: "" })
   const [IdFormData, setIdFormData] = useState("")
   const [SearchFormData, setSearchFormData] = useState("")
   //アクセストークン取得
@@ -20,7 +21,9 @@ const App = () => {
       data: "grant_type=client_credentials"
     }).then((tokenResponse) => {
       setToken(tokenResponse.data.access_token)
-      console.log(tokenResponse.data.access_token)
+      console.log(
+        "アクセストークン："
+        + tokenResponse.data.access_token)
     })
   }, [])
   //ID検索ボタンの機能
@@ -32,7 +35,7 @@ const App = () => {
       method: "GET",
       headers: {
         'Authorization': "Bearer " + token
-      },
+      }
     }).then((artistsResponse) => {
       setArtists({
         artistsName: artistsResponse.data.name,
@@ -61,9 +64,10 @@ const App = () => {
       console.log(artistsResponse.data)
       //検索結果を変数に登録
       setArtists({
-        artistsJsonData: artistsResponse.data["artists"]
-
+        //未解決2/9現在
+        artistsJsonData: artistsResponse.data.[artists]
       })
+      console.log(artists.artistsJsonData)
     })
     setSearchFormData('')
   }
@@ -72,8 +76,6 @@ const App = () => {
     console.log(event.target.value)
     setSearchFormData(event.target.value)
   }
-  SplitButton
-
   return (
     <div>
       <h1>ID検索</h1>
@@ -95,7 +97,20 @@ const App = () => {
         />
         <Button variant="contained" color="primary" type="submit">GO!</Button>
       </form>
-      <h2>クソ長い検索結果：{ [artists.artistsJsonData] }</h2>
+      <h2>クソ長い検索結果：{[artists.artistsJsonData]}</h2>
+      <SplitButton />
+      <TextField
+          id="standard-full-width"
+          label="ID検索"
+          style={{ margin: 8 }}
+          placeholder="入力せい"
+          helperText="かっこよさそうやから入れた"
+          fullWidth
+          margin="normal"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
     </div>
     )
   }
