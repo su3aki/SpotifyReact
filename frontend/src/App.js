@@ -64,7 +64,7 @@ const App = () => {
       console.log(artistsResponse.data)
       //検索結果を変数に登録
       setArtists({
-        //未解決2/9現在
+        //未解決2/9現在 keizoku
         artistsJsonData: artistsResponse.data.[artists]
       })
       console.log(artists.artistsJsonData)
