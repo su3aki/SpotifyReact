@@ -3,7 +3,8 @@ import axios from "axios"
 import Button from '@material-ui/core/Button'
 import SplitButton from './components/SplitButton'
 import TextField from '@material-ui/core/TextField'
-
+import logo from './tuneUPlogo.svg'
+import './App.css'
 const App = () => {
   const [token, setToken] = useState("")
   const [artists, setArtists] = useState({ artistsJsonData: "", artistsName: "", artistsGenres: "",artistsPopularity: "" })
@@ -16,7 +17,7 @@ const App = () => {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         'Authorization':
-        "Basic " + btoa(process.env.REACT_APP_clientId + ":" + process.env.REACT_APP_clientSecret)
+          "Basic " + btoa(process.env.REACT_APP_clientId + ":" + process.env.REACT_APP_clientSecret)
       },
       data: "grant_type=client_credentials"
     }).then((tokenResponse) => {
@@ -76,41 +77,44 @@ const App = () => {
     console.log(event.target.value)
     setSearchFormData(event.target.value)
   }
+  //<img src={logo} className="App-logo" alt="logo" />
   return (
-    <div>
-      <h1>ID検索</h1>
-      <form onSubmit={addIdFormData}>
-        <input
-          value={ IdFormData }
-          onChange={handleFormChange}
-          />
+    <div className="App">
+      <div className="App-header">
+        <h1>ID検索</h1>
+        <form onSubmit={addIdFormData}>
+          <input
+            value={ IdFormData }
+            onChange={handleFormChange}
+            />
         <Button variant="contained" color="primary" type="submit">GO!</Button>
-      </form>
-      <h2>アーティスト名：{ artists.artistsName }</h2>
-      <h2>ジャンル：{ artists.artistsGenres }</h2>
-      <h2>人気パラメータ：{ artists.artistsPopularity }</h2>
-      <h1>アーティスト名検索</h1>
-      <form onSubmit={ addSearchFormData }>
-        <input
-          value={ SearchFormData }
-          onChange={ handleSearchFormChange }
-        />
-        <Button variant="contained" color="primary" type="submit">GO!</Button>
-      </form>
-      <h2>クソ長い検索結果：{[artists.artistsJsonData]}</h2>
-      <SplitButton />
-      <TextField
-          id="standard-full-width"
-          label="ID検索"
-          style={{ margin: 8 }}
-          placeholder="入力せい"
-          helperText="かっこよさそうやから入れた"
-          fullWidth
-          margin="normal"
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
+        </form>
+        <h2>アーティスト名：{ artists.artistsName }</h2>
+        <h2>ジャンル：{ artists.artistsGenres }</h2>
+        <h2>人気パラメータ：{ artists.artistsPopularity }</h2>
+        <h1>アーティスト名検索</h1>
+        <form onSubmit={ addSearchFormData }>
+          <input
+            value={ SearchFormData }
+            onChange={ handleSearchFormChange }
+            />
+          <Button variant="contained" color="primary" type="submit">GO!</Button>
+        </form>
+        <h2>クソ長い検索結果：{[artists.artistsJsonData]}</h2>
+        <SplitButton />
+        <TextField
+            id="standard-full-width"
+            label="ID検索"
+            style={{ margin: 8 }}
+            placeholder="入力せい"
+            helperText="かっこよさそうやから入れた"
+            fullWidth
+            margin="normal"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            />
+          </div>
     </div>
     )
   }
