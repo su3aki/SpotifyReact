@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import axios from "axios"
 import Button from '@material-ui/core/Button'
-import SplitButton from './components/SplitButton'
-import TextField from '@material-ui/core/TextField'
-import logo from './tuneUPlogo.svg'
 import './App.css'
+
 const App = () => {
   const [token, setToken] = useState("")
-  const [artists, setArtists] = useState({ artistsJsonData: "", artistsName: "", artistsGenres: "",artistsPopularity: "" })
+  const [artists, setArtists] = useState({ artistsJsonData: "", artistsName: "", artistsGenres: "", artistsPopularity: "" })
+  const [resultWordSearch, setResultWordSearch] = useState([])
   const [IdFormData, setIdFormData] = useState("")
   const [SearchFormData, setSearchFormData] = useState("")
   //アクセストークン取得
@@ -54,6 +53,7 @@ const App = () => {
   //単語検索ボタンの機能
   //SearchFormに入力された単語を元にアーティスト名を取得
   const addSearchFormData = (event) => {
+    setSearchFormData([])
     event.preventDefault()
     console.log('RUN WORD Search', event.target)
     axios(`https://api.spotify.com/v1/search?q=${SearchFormData}&type=artist&limit=3`, {
@@ -64,10 +64,7 @@ const App = () => {
     }).then((artistsResponse) => {
       console.log(artistsResponse.data)
       //検索結果を変数に登録
-      setArtists({
-        //未解決2/9現在 keizoku
-        artistsJsonData: artistsResponse.data.[artists]
-      })
+      setResultWordSearch(artistsResponse.data.artists.items)
       console.log(artists.artistsJsonData)
     })
     setSearchFormData('')
@@ -81,7 +78,7 @@ const App = () => {
   return (
     <div className="App">
       <div className="App-header">
-        <h1>ID検索</h1>
+        <h2>ID検索</h2>
         <form onSubmit={addIdFormData}>
           <input
             value={ IdFormData }
@@ -89,9 +86,9 @@ const App = () => {
             />
         <Button variant="contained" color="primary" type="submit">GO!</Button>
         </form>
-        <h2>アーティスト名：{ artists.artistsName }</h2>
-        <h2>ジャンル：{ artists.artistsGenres }</h2>
-        <h2>人気パラメータ：{ artists.artistsPopularity }</h2>
+        <p>アーティスト名：{ artists.artistsName }</p>
+        <p>ジャンル：{ artists.artistsGenres }</p>
+        <p>人気パラメータ：{ artists.artistsPopularity }</p>
         <h1>アーティスト名検索</h1>
         <form onSubmit={ addSearchFormData }>
           <input
@@ -100,20 +97,7 @@ const App = () => {
             />
           <Button variant="contained" color="primary" type="submit">GO!</Button>
         </form>
-        <h2>クソ長い検索結果：{[artists.artistsJsonData]}</h2>
-        <SplitButton />
-        <TextField
-            id="standard-full-width"
-            label="ID検索"
-            style={{ margin: 8 }}
-            placeholder="入力せい"
-            helperText="かっこよさそうやから入れた"
-            fullWidth
-            margin="normal"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            />
+        クソ長い検索結果：{resultWordSearch.map}
           </div>
     </div>
     )
