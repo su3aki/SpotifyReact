@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import axios from "axios"
 import Button from '@material-ui/core/Button'
+import Search from './components/Search'
 import './App.css'
 
 const App = () => {
   const [token, setToken] = useState("")
-  const [artists, setArtists] = useState({ artistsJsonData: "", artistsName: "", artistsGenres: "", artistsPopularity: "" })
   const [resultWordSearch, setResultWordSearch] = useState([])
-  const [IdFormData, setIdFormData] = useState("")
+  const [wordFormData, setWordFormData] = useState("")
   const [SearchFormData, setSearchFormData] = useState("")
   //アクセストークン取得
   useEffect(() => {
@@ -26,34 +26,16 @@ const App = () => {
         + tokenResponse.data.access_token)
     })
   }, [])
-  //ID検索ボタンの機能
-  //IDFormに入力されたIDを元にアーティスト名を取得
-  const addIdFormData = (event) => {
-    event.preventDefault()
-    console.log('RUN ID Fetch', event.target)
-    axios(`https://api.spotify.com/v1/artists/${IdFormData}`, {
-      method: "GET",
-      headers: {
-        'Authorization': "Bearer " + token
-      }
-    }).then((artistsResponse) => {
-      setArtists({
-        artistsName: artistsResponse.data.name,
-        artistsGenres: artistsResponse.data.genres,
-        artistsPopularity: artistsResponse.data.popularity
-      })
-    })
-    setIdFormData('')
-  }
-  //Idform中身の変更内容取得
-  const handleFormChange = (event) => {
-    console.log(event.target.value)
-    setIdFormData(event.target.value)
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (wordFormData === "") {
+      alert("入力してください");
+    }
   }
   //単語検索ボタンの機能
   //SearchFormに入力された単語を元にアーティスト名を取得
   const addSearchFormData = (event) => {
-    setSearchFormData([])
+    setResultWordSearch([])
     event.preventDefault()
     console.log('RUN WORD Search', event.target)
     axios(`https://api.spotify.com/v1/search?q=${SearchFormData}&type=artist&limit=3`, {
@@ -65,7 +47,7 @@ const App = () => {
       console.log(artistsResponse.data)
       //検索結果を変数に登録
       setResultWordSearch(artistsResponse.data.artists.items)
-      console.log(artists.artistsJsonData)
+      console.log(artistsResponse.data)
     })
     setSearchFormData('')
   }
@@ -74,32 +56,47 @@ const App = () => {
     console.log(event.target.value)
     setSearchFormData(event.target.value)
   }
-  //<img src={logo} className="App-logo" alt="logo" />
-  return (
-    <div className="App">
-      <div className="App-header">
-        <h2>ID検索</h2>
-        <form onSubmit={addIdFormData}>
-          <input
-            value={ IdFormData }
-            onChange={handleFormChange}
+  /*
+  //アーティストのIDからアルバム取得
+  const trackView = (id) => {
+    axios(
+      `https://api.spotify.com/v1/artists/${id}/albums?market=ES&limit=10`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token
+        },
+      }).then((tracksReaponse) => {
+        setAlbums(tracksReaponse.data.items)
+        console.log()
+      })
+  }
+  */
+    return (
+      <div className="App">
+        <div className="App-header">
+          <h2>Search Track by query</h2>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              value={wordFormData}
+              placeholder="Track name?"
+              onChange={(e) => setWordFormData(e.target.value)}
             />
-        <Button variant="contained" color="primary" type="submit">GO!</Button>
-        </form>
-        <p>アーティスト名：{ artists.artistsName }</p>
-        <p>ジャンル：{ artists.artistsGenres }</p>
-        <p>人気パラメータ：{ artists.artistsPopularity }</p>
-        <h1>アーティスト名検索</h1>
-        <form onSubmit={ addSearchFormData }>
-          <input
-            value={ SearchFormData }
-            onChange={ handleSearchFormChange }
+          </form>
+          <Search token={token} wordFormData={wordFormData}/>
+        <h2>Search Artists by query</h2>
+          <form onSubmit={addSearchFormData}>
+            <input
+              value={SearchFormData}
+              onChange={handleSearchFormChange}
             />
-          <Button variant="contained" color="primary" type="submit">GO!</Button>
-        </form>
-        クソ長い検索結果：{resultWordSearch.map}
-          </div>
-    </div>
+            <Button variant="contained" color="primary" type="submit">GO!</Button>
+          </form>
+          <p>Artists Result:{resultWordSearch}</p>
+        </div>
+        </div>
+
     )
   }
 export default App;
