@@ -6,7 +6,10 @@ import './App.css'
 
 const App = () => {
   const [token, setToken] = useState("")
-  const [resultWordSearch, setResultWordSearch] = useState([])
+  const [resultWordSearch, setResultWordSearch] = useState({
+    artistsName: "",
+    artistsImg: ""
+  })
   const [wordFormData, setWordFormData] = useState("")
   const [SearchFormData, setSearchFormData] = useState("")
   //アクセストークン取得
@@ -46,7 +49,10 @@ const App = () => {
     }).then((artistsResponse) => {
       console.log(artistsResponse.data)
       //検索結果を変数に登録
-      setResultWordSearch(artistsResponse.data.artists.items[0].name)
+      setResultWordSearch({
+        artistsName: artistsResponse.data.artists.items[0].name,
+        artistsImg: artistsResponse.data.artists.items[0].images[0].url
+      })
       console.log(artistsResponse.data)
     })
     setSearchFormData('')
@@ -93,7 +99,8 @@ const App = () => {
             />
             <Button variant="contained" color="primary" type="submit">GO!</Button>
           </form>
-          <p>Artists Result:{resultWordSearch}</p>
+          <p>Artists Result:{resultWordSearch.artistsName}</p>
+          <img src={resultWordSearch.artistsImg}></img>
         </div>
         </div>
 
