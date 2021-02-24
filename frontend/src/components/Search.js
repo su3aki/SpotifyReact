@@ -13,14 +13,14 @@ const Search = (props) => {
     })
       .then((trackContentsResponse) => {
         setSearchResult(
-          trackContentsResponse.data.tracks.items.album
+          [trackContentsResponse.data.tracks.items.album]
         )
         console.log(trackContentsResponse)
       })
       .catch((err) => {
         console.log("err:", err)
       })
-  }, [props.wordFormData, props.token]
+  }, [props.wordFormData]
   )
   return (
     <div>

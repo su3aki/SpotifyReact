@@ -46,7 +46,7 @@ const App = () => {
     }).then((artistsResponse) => {
       console.log(artistsResponse.data)
       //検索結果を変数に登録
-      setResultWordSearch(artistsResponse.data.artists.items)
+      setResultWordSearch(artistsResponse.data.artists.items[0].name)
       console.log(artistsResponse.data)
     })
     setSearchFormData('')
