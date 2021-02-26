@@ -10,7 +10,7 @@ const Search = (props) => {
   //   nameList: []
   // })
   const [itemResult,setItemResult] = useState([])
-
+  console.log(itemResult)
   useEffect(() => {
 //曲名単語検索
     axios(`https://api.spotify.com/v1/search?query=${props.wordFormData}&type=track&market=US&limit=10`, {
@@ -19,7 +19,7 @@ const Search = (props) => {
     })
       .then((trackContentsResponse) => {
         // const tracksFilter = trackContentsResponse.data.tracks.items
-        setItemResult(trackContentsResponse)
+        setItemResult(trackContentsResponse.data.tracks)
         // setSearchResult({
         //   nameList: tracksFilter[0],
         //   trackId: tracksFilter[0].id,
@@ -33,13 +33,18 @@ const Search = (props) => {
       })
   }, [props.wordFormData,props.token]
   )
+  const items = itemResult.items
+  console.log(items)
   return (
     <div>
-      {itemResult.map((tracks) =>
-        (tracks)
+      <ul>
+      {items.map((props,index) =>
+        <li key={index}>
+          {props.name}
+        </li>
       )}
-      {/* <ul>
-      {searchResult.nameList.map((name) =>
+      </ul>
+      {/* {searchResult.nameList.map((name) =>
         <li>
           {name}
         </li>
@@ -51,7 +56,7 @@ const Search = (props) => {
       <h3>Artist is called "{searchResult.artistsName}"</h3>
       <p>ResultID: {searchResult.trackId}</p>
       <GetParams token={props.token} trackId={searchResult.trackId} />
-      */}
+       */}
     </div>
   )
 }
