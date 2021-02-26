@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import GetParams from './GetParams'
+// import GetParams from './GetParams'
+
+
 const Search = (props) => {
-  const [searchResult, setSearchResult] = useState({
-    trackId: "",
-    artistsName: ""
-  })
+  // const [searchResult, setSearchResult] = useState({
+  //   trackId: "",
+  //   artistsName: "",
+  //   nameList: []
+  // })
+  const [itemResult,setItemResult] = useState([])
+
   useEffect(() => {
 //曲名単語検索
     axios(`https://api.spotify.com/v1/search?query=${props.wordFormData}&type=track&market=US&limit=10`, {
@@ -13,10 +18,14 @@ const Search = (props) => {
       headers: { Authorization: "Bearer " + props.token },
     })
       .then((trackContentsResponse) => {
-        setSearchResult({
-          trackId: trackContentsResponse.data.tracks.items[0].id,
-          artistsName: trackContentsResponse.data.tracks.items[0].artists[0].name
-        })
+        // const tracksFilter = trackContentsResponse.data.tracks.items
+        setItemResult(trackContentsResponse)
+        // setSearchResult({
+        //   nameList: tracksFilter[0],
+        //   trackId: tracksFilter[0].id,
+        //   artistsName: tracksFilter[0].artists[0].name,
+        // })
+        console.log("🔻トラック検索結果：" + props.wordFormData)
         console.log(trackContentsResponse)
       })
       .catch((err) => {
@@ -26,9 +35,23 @@ const Search = (props) => {
   )
   return (
     <div>
+      {itemResult.map((tracks) =>
+        (tracks)
+      )}
+      {/* <ul>
+      {searchResult.nameList.map((name) =>
+        <li>
+          {name}
+        </li>
+      // <div key={id}>
+      //   <p onClick={() => (<GetParams token={props.token} trackId={id} />)}/>
+      //   {name}        // </div>
+      )}
+      </ul>
       <h3>Artist is called "{searchResult.artistsName}"</h3>
       <p>ResultID: {searchResult.trackId}</p>
-      {/* <GetParams token={props.token} trackId={} /> */}
+      <GetParams token={props.token} trackId={searchResult.trackId} />
+      */}
     </div>
   )
 }

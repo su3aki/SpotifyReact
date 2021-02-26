@@ -81,7 +81,7 @@ const App = () => {
     return (
       <div className="App">
         <div className="App-header">
-          <h2>Search Track by query</h2>
+          <h1>Search Track by query</h1>
           <form onSubmit={handleSubmit}>
             <input
               type="text"
@@ -90,8 +90,11 @@ const App = () => {
               onChange={(e) => setWordFormData(e.target.value)}
             />
           </form>
-          <Search token={token} wordFormData={wordFormData}/>
-        <h2>Search Artists by query</h2>
+          {wordFormData.length === 0
+            ? <p>Please enter</p>
+            : <Search token={token} wordFormData={wordFormData} />
+          }
+        <h1>Search Artists by query</h1>
           <form onSubmit={addSearchFormData}>
             <input
               value={SearchFormData}

@@ -10,9 +10,8 @@ const GetParams = (props) => {
       headers: { Authorization: "Bearer " + props.token}
     })
       .then((trackParameterResponse) => {
-        setTrackParams(
-
-        )
+        setTrackParams({ trackParameterResponse })
+        console.log("🔻トラック詳細情報")
         console.log(trackParameterResponse)
       })
       .catch((err) => {
