@@ -91,7 +91,7 @@ const App = () => {
             />
           </form>
           {wordFormData.length === 0
-            ? <p>Please enter</p>
+            ? <p>Fill the form</p>
             : <Search token={token} wordFormData={wordFormData} />
           }
         <h1>Search Artists by query</h1>
@@ -103,7 +103,7 @@ const App = () => {
             <Button variant="contained" color="primary" type="submit">GO!</Button>
           </form>
           <p>Artists Result:{resultWordSearch.artistsName}</p>
-          <img src={resultWordSearch.artistsImg}></img>
+          <img src={resultWordSearch.artistsImg}/>
         </div>
         </div>
 

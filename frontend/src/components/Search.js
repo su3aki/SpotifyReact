@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-// import GetParams from './GetParams'
+import GetParams from './GetParams'
 
 
 const Search = (props) => {
@@ -9,17 +9,16 @@ const Search = (props) => {
   //   artistsName: "",
   //   nameList: []
   // })
-  const [itemResult,setItemResult] = useState([])
-  console.log(itemResult)
+  const [itemResult, setItemResult] = useState([])
   useEffect(() => {
-//曲名単語検索
+    //曲名単語検索
     axios(`https://api.spotify.com/v1/search?query=${props.wordFormData}&type=track&market=US&limit=10`, {
       method: "GET",
       headers: { Authorization: "Bearer " + props.token },
     })
       .then((trackContentsResponse) => {
         // const tracksFilter = trackContentsResponse.data.tracks.items
-        setItemResult(trackContentsResponse.data.tracks)
+        setItemResult(trackContentsResponse.data.tracks.items)
         // setSearchResult({
         //   nameList: tracksFilter[0],
         //   trackId: tracksFilter[0].id,
@@ -31,19 +30,33 @@ const Search = (props) => {
       .catch((err) => {
         console.log("err:", err)
       })
-  }, [props.wordFormData,props.token]
+  }, [props.wordFormData, props.token]
   )
-  const items = itemResult.items
-  console.log(items)
+  console.log(itemResult)
+  itemResult.length === 0
+    ? console.log("未取得")
+    : console.log(itemResult[0].album.images[0].url)
+
   return (
     <div>
-      <ul>
-      {items.map((props,index) =>
-        <li key={index}>
-          {props.name}
-        </li>
-      )}
-      </ul>
+      { itemResult !== undefined
+        ? itemResult.length === 0
+          ? <p>そんな曲ないわ</p>
+          : <ul>
+            {itemResult.map((props) =>
+              <li onClick={() =>
+                (<GetParams token={props.token} trackId={props.id} />)} key={props.id}>
+                {props.name}
+              </li>
+            )}
+          </ul>
+
+        : <p>wait a minute</p>
+      }
+      {/* { itemResult !== undefined
+        ? <img src={itemResult[0].album.images[3].url} />
+        : <p></p>
+      } */}
       {/* {searchResult.nameList.map((name) =>
         <li>
           {name}
