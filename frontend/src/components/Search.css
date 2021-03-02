@@ -1,0 +1,16 @@
+.tracks {
+  color: #ee0077;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 5vw;
+}
+.tracks li {
+  list-style: none;
+  border-bottom: 1px solid #1db954;
+  padding: 10px;
+}
+.tracks img {
+  width: 15vw;
+  margin-right: 2vw;
+}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import GetParams from './GetParams'
+import './Search.css'
 
 const Search = (props) => {
   // const [searchResult, setSearchResult] = useState({
@@ -35,20 +36,19 @@ const Search = (props) => {
   itemResult.length === 0
     ? console.log("未取得")
     : console.log(itemResult[0].album.images[0].url)
-
   return (
-    <div>
+    <div className="tracks">
       { itemResult !== undefined
         ? itemResult.length === 0
           ? <p>そんな曲ないわ</p>
           : <ul>
             {itemResult.map((props) =>
               <li onClick={() => (<GetParams token={props.token} trackId={props.id} />)} key={props.id}>
+                <img src={props.album.images[1].url} />
                 {props.name}
               </li>
             )}
           </ul>
-
         : <p>wait a minute</p>
       }
       {/* { itemResult !== undefined

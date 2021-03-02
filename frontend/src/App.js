@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import axios from "axios"
-import Button from '@material-ui/core/Button'
 import Search from './components/Search'
+import Button from '@material-ui/core/Button'
+import {makeStyles} from '@material-ui/core/styles'
+import TextField from '@material-ui/core/TextField'
+import { color } from '@material-ui/system'
 import './App.css'
 
 const App = () => {
@@ -78,21 +81,48 @@ const App = () => {
       })
   }
   */
+//   const CssTextField = withStyles({
+//   root: {
+//     '& label.Mui-focused': {
+//       color: 'green',
+//     },
+//     '& .MuiInput-underline:after': {
+//       borderBottomColor: 'green',
+//     },
+//     '& .MuiOutlinedInput-root': {
+//       '& fieldset': {
+//         borderColor: 'red',
+//       },
+//       '&:hover fieldset': {
+//         borderColor: 'yellow',
+//       },
+//       '&.Mui-focused fieldset': {
+//         borderColor: 'green',
+//       },
+//     },
+//   },
+// })(TextField);
+
+  const useStyles = makeStyles({
+    root: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      color: 'green',
+    },
+  })
+  const classes = useStyles
     return (
       <div className="App">
         <div className="App-header">
           <h1>Search Track by query</h1>
-          <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              value={wordFormData}
-              placeholder="Track name?"
-              onChange={(e) => setWordFormData(e.target.value)}
-            />
-          </form>
-          {wordFormData.length === 0
-            ? <p>Fill the form</p>
-            : <Search token={token} wordFormData={wordFormData} />
+        </div>
+        <form onSubmit={handleSubmit}>
+          <TextField className={classes.root} id="standard-basic" fullWidth label="trackname?" value={wordFormData} onChange={(e) => setWordFormData(e.target.value)} />
+
+        </form>
+        {wordFormData.length === 0
+          ? <p>Fill the form</p>
+          : <Search token={token} wordFormData={wordFormData} />
           }
         <h1>Search Artists by query</h1>
           <form onSubmit={addSearchFormData}>
@@ -104,7 +134,6 @@ const App = () => {
           </form>
           <p>Artists Result:{resultWordSearch.artistsName}</p>
           <img src={resultWordSearch.artistsImg}/>
-        </div>
         </div>
 
     )
