@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import GetParams from './GetParams'
 
-
 const Search = (props) => {
   // const [searchResult, setSearchResult] = useState({
   //   trackId: "",
@@ -44,8 +43,7 @@ const Search = (props) => {
           ? <p>そんな曲ないわ</p>
           : <ul>
             {itemResult.map((props) =>
-              <li onClick={() =>
-                (<GetParams token={props.token} trackId={props.id} />)} key={props.id}>
+              <li onClick={() => (<GetParams token={props.token} trackId={props.id} />)} key={props.id}>
                 {props.name}
               </li>
             )}
