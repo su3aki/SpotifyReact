@@ -67,22 +67,20 @@ const App = () => {
     console.log(event.target.value)
     setSearchFormData(event.target.value)
   }
+
+
   /*
-  //アーティストのIDからアルバム取得
-  const trackView = (id) => {
-    axios(
-      `https://api.spotify.com/v1/artists/${id}/albums?market=ES&limit=10`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + token
-        },
-      }).then((tracksReaponse) => {
-        setAlbums(tracksReaponse.data.items)
-        console.log()
-      })
-  }
-  */
+  const CssTextField = withStyles({
+    root: {
+      '& label.Mui-focused': {
+        color: 'green',
+      },
+      '& .MuiInput-underline:after': {
+        borderBottomColor: 'green',
+      }
+    }
+})(TextField);
+*/
 
 
 const useStyles = makeStyles((theme) => ({
@@ -99,16 +97,17 @@ const useStyles = makeStyles((theme) => ({
     return (
       <div className="App">
         <div className="App-header">
-          <h1>検索エンジン（仮）</h1>
+          <h2>シュッとしたアプリ名が<br/>ここに入る予定です</h2>
         </div>
         <form className={classes.root} noValidate onSubmit={handleSubmit}>
           <TextField
             className={classes.margin}
             id="standard-basic"
-            fullWidth
             label="trackname?"
             value={wordFormData}
-            onChange={(e) => setWordFormData(e.target.value)} />
+            fullWidth
+            onChange={(e) => setWordFormData(e.target.value)}
+            />
 
         </form>
         {wordFormData.length === 0
