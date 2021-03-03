@@ -19,11 +19,6 @@ const Search = (props) => {
       .then((trackContentsResponse) => {
         // const tracksFilter = trackContentsResponse.data.tracks.items
         setItemResult(trackContentsResponse.data.tracks.items)
-        // setSearchResult({
-        //   nameList: tracksFilter[0],
-        //   trackId: tracksFilter[0].id,
-        //   artistsName: tracksFilter[0].artists[0].name,
-        // })
         console.log("🔻トラック検索結果：" + props.wordFormData)
         console.log(trackContentsResponse)
       })
@@ -58,10 +53,6 @@ const Search = (props) => {
           </ul>
         : <p>wait a minute</p>
       }
-      {/* { itemResult !== undefined
-        ? <img src={itemResult[0].album.images[3].url} />
-        : <p></p>
-      } */}
       {/* {searchResult.nameList.map((name) =>
         <li>
           {name}

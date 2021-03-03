@@ -99,7 +99,7 @@ const useStyles = makeStyles((theme) => ({
     return (
       <div className="App">
         <div className="App-header">
-          <h1>Search Track by query</h1>
+          <h1>検索エンジン（仮）</h1>
         </div>
         <form className={classes.root} noValidate onSubmit={handleSubmit}>
           <TextField
