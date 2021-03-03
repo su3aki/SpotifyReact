@@ -37,6 +37,10 @@ const Search = (props) => {
     ? console.log("未取得")
     : console.log(itemResult[0].album.images[0].url)
   return (
+    <div>
+    <div className="tracks-header">
+      <p>Tracklist</p>
+    </div>
     <div className="tracks">
       { itemResult !== undefined
         ? itemResult.length === 0
@@ -45,7 +49,10 @@ const Search = (props) => {
             {itemResult.map((props) =>
               <li onClick={() => (<GetParams token={props.token} trackId={props.id} />)} key={props.id}>
                 <img src={props.album.images[1].url} />
-                {props.name}
+                <div className="tracks-info">
+                {props.name}<br />
+                  {props.album.artists[0].name}
+                </div>
               </li>
             )}
           </ul>
@@ -68,7 +75,8 @@ const Search = (props) => {
       <p>ResultID: {searchResult.trackId}</p>
       <GetParams token={props.token} trackId={searchResult.trackId} />
        */}
-    </div>
+      </div>
+      </div>
   )
 }
 export default Search;

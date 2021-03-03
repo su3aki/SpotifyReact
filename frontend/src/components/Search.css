@@ -1,9 +1,7 @@
 .tracks {
   color: #ee0077;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   font-size: 5vw;
+  width: max-content;
 }
 .tracks li {
   list-style: none;
@@ -13,4 +11,7 @@
 .tracks img {
   width: 15vw;
   margin-right: 2vw;
+}
+.tracks-info {
+  display: inline-block;
 }
