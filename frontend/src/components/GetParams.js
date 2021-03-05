@@ -5,7 +5,7 @@ const GetParams = (props) => {
   const [trackParams, setTrackParams] = useState([])
   useEffect(() => {
 //Searchで拾ってきたIDを元に曲のパラメータを取得
-    axios(`https://api.spotify.com/v1/tracks/${props.trackId}`, {
+    axios(`https://api.spotify.com/v1/audio-analysis/${props.trackId}`, {
       method: "GET",
       headers: { Authorization: "Bearer " + props.token}
     })

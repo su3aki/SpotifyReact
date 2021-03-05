@@ -3,7 +3,6 @@ import axios from "axios"
 import Search from './components/Search'
 import Button from '@material-ui/core/Button'
 import {
-  withStyles,
   makeStyles
 } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
@@ -68,21 +67,6 @@ const App = () => {
     setSearchFormData(event.target.value)
   }
 
-
-  /*
-  const CssTextField = withStyles({
-    root: {
-      '& label.Mui-focused': {
-        color: 'green',
-      },
-      '& .MuiInput-underline:after': {
-        borderBottomColor: 'green',
-      }
-    }
-})(TextField);
-*/
-
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -97,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
     return (
       <div className="App">
         <div className="App-header">
-          <h2>シュッとしたアプリ名が<br/>ここに入る予定です</h2>
+          <h2>Ronshex</h2>
         </div>
         <form className={classes.root} noValidate onSubmit={handleSubmit}>
           <TextField

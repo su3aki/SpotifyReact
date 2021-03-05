@@ -1,13 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Economica&family=Open+Sans&family=Sawarabi+Mincho&display=swap");
+/* background-color: #191414; */
 
 .App {
   background-color: white;
-  font-family: "Economica", "Sawarabi Mincho", sans-serif;
-  /* background-color: #191414; */
-  min-height: 100vh;
-  font-size: calc(1px + 3vmin);
-  padding: 10px;
   color: #1db954;
+  font-family: "Economica", "Sawarabi Mincho", sans-serif;
+  font-size: calc(1px + 3vmin);
+  min-height: 100vh;
+  overflow: hidden;
+  padding: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .App-textField {
   color: #1db954;
