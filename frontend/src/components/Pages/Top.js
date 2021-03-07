@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Credentials from '../Organisms/Credentials'
+import Credentials from '../Molecules/Credentials'
 import Header from '../Organisms/Header'
 import Search from '../Organisms/Search'
 import {

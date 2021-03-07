@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import React, { useState } from 'react'
+import QueryTracks from "../Molecules/QueryTracks"
 import Box from '@material-ui/core/Box'
 import './Search.css'
-import GetParams from './GetParams'
+import { Typography } from '@material-ui/core'
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 
 const Search = (props) => {
   const [itemResult, setItemResult] = useState([])
@@ -11,47 +12,32 @@ const Search = (props) => {
     trackId: ""
   })
   const token = props.token
-  useEffect(() => {
-    //曲名単語検索
-    axios(`https://api.spotify.com/v1/search?query=${props.wordFormData}&type=track&market=US&limit=10`, {
-      method: "GET",
-      headers: { Authorization: "Bearer " + token },
-    })
-      .then((trackContentsResponse) => {
-        setItemResult(trackContentsResponse.data.tracks.items)
-        console.log("🔻トラック検索結果：" + props.wordFormData)
-        console.log(trackContentsResponse)
-      })
-      .catch((err) => {
-        console.log("err:", err)
-      })
-  }, [props.wordFormData, token]
-  )
-  console.log(itemResult)
-  itemResult.length === 0
-    ? console.log("未取得")
-    : console.log(itemResult[0].album.images[0].url)
+  const wordFormData = props.wordFormData
+  const theme = createMuiTheme();
 
-  const passData = () => (
-    <GetParams token={token} id={props.id} />
-  )
-
+theme.typography.h3 = {
+  fontSize: '1.2rem',
+  '@media (min-width:600px)': {
+    fontSize: '2rem',
+  },
+  [theme.breakpoints.up('md')]: {
+    fontSize: '3rem',
+  },
+}
   return (
     <div>
-    <div className="tracks-header">
-        <p>Tracklist</p>
-    </div>
-    <div className="tracks">
+      <ThemeProvider theme={theme}>
+        <Typography variant="h6">TrackList</Typography>
+        <div className="tracks">
+          <QueryTracks token={token} wordFormData={wordFormData} setItemResult={ setItemResult }/>
       { itemResult !== undefined
         ? itemResult.length === 0
-          ? <p>そんな曲ないわ</p>
-          : <ul>
+        ? <p>そんな曲ないわ</p>
+        : <ul>
             {itemResult.map((props) =>
               <li key={props.id}>
                 <img src={props.album.images[1].url} />
-                <Box component="div" textOverflow="ellipsis" overflow="hidden" className="tracks-info"
-                  onClick={() =>
-                    <GetParams token={token} id={props.id} />}>
+                <Box component="div" textOverflow="ellipsis" overflow="hidden" className="tracks-info">
                     {props.name}<br/>
                     {props.album.artists[0].name}
                 </Box>
@@ -61,7 +47,8 @@ const Search = (props) => {
           : <p>wait a minute</p>
         }
       </div>
-      </div>
+        </ThemeProvider>
+        </div>
   )
 }
 export default Search;
