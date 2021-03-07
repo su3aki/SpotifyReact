@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import {React, useState, useEffect } from 'react'
 import axios from 'axios'
 
 const GetParams = (props) => {
   const [trackParams, setTrackParams] = useState([])
   useEffect(() => {
 //Searchで拾ってきたIDを元に曲のパラメータを取得
-    axios(`https://api.spotify.com/v1/audio-analysis/${props.trackId}`, {
+    axios(`https://api.spotify.com/v1/audio-analysis/${props.id}`, {
       method: "GET",
-      headers: { Authorization: "Bearer " + props.token}
+      headers: {Authorization: "Bearer " + props.token}
     })
       .then((trackParameterResponse) => {
         setTrackParams({ trackParameterResponse })
@@ -17,11 +17,11 @@ const GetParams = (props) => {
       .catch((err) => {
         console.log("err", err)
       })
-  }, [props.trackId,props.token]
+  }, [props.id,props.token]
   )
   return (
     <div>
-      <p>Parameter:{ }</p>
+      <p>Parameter:{ trackParams }</p>
     </div>
   )
 }
