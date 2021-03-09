@@ -12,14 +12,11 @@ const TrackData = (props) => {
         "Content-type": "application/json"}
     }).then((trackInfoResponse) => {
       props.setTrackInfo(trackInfoResponse)
-      console.log(trackInfoResponse)
-
     })
   }, [props.id])
   return (
     <div>
       { props.setTrackInfo }
-    <p>hello</p>
     </div>
   )
 }
