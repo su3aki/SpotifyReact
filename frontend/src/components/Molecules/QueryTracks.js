@@ -6,12 +6,15 @@ const QueryTracks = (props) => {
     //曲名単語検索
     axios(`https://api.spotify.com/v1/search?query=${props.wordFormData}&type=track&market=US&limit=10`, {
       method: "GET",
-      headers: { Authorization: "Bearer " + props.token },
+      headers: {
+        Authorization: "Bearer " + props.token,
+        Accept: "application/json",
+        "Content-type": "application/json"},
     })
       .then((trackContentsResponse) => {
         props.setItemResult(trackContentsResponse.data.tracks.items)
         console.log("🔻トラック検索結果：" + props.wordFormData)
-        console.log(trackContentsResponse)
+        console.log(trackContentsResponse.data)
       })
       .catch((err) => {
         console.log("err:", err)
@@ -23,5 +26,5 @@ const QueryTracks = (props) => {
       { props.setItemResult }
     </div>
   )
-  }
+}
 export default QueryTracks;

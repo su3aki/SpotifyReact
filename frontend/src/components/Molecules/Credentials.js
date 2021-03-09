@@ -6,9 +6,9 @@ const Credentials = (props) => {
     axios("https://accounts.spotify.com/api/token", {
       method: "POST",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        'Authorization':
-          "Basic " + btoa(process.env.REACT_APP_clientId + ":" + process.env.REACT_APP_clientSecret)
+        Authorization:
+        "Basic " + btoa(process.env.REACT_APP_clientId + ":" + process.env.REACT_APP_clientSecret),
+        "Content-Type": "application/x-www-form-urlencoded"
       },
       data: "grant_type=client_credentials"
     }).then((tokenResponse) => {

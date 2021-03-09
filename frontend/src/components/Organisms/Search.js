@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import TrackData from '../Molecules/TrackData'
 import QueryTracks from "../Molecules/QueryTracks"
 import Box from '@material-ui/core/Box'
 import './Search.css'
@@ -7,10 +8,8 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 
 const Search = (props) => {
   const [itemResult, setItemResult] = useState([])
-  const [selectedTrack, setSelectedTrack] = useState({
-    trackURL: "",
-    trackId: ""
-  })
+  const [trackInfo, setTrackInfo] = useState("")
+  const [selectedId, setSelectedId] = useState("")
   const token = props.token
   const wordFormData = props.wordFormData
   const theme = createMuiTheme();
@@ -24,18 +23,31 @@ theme.typography.h3 = {
     fontSize: '3rem',
   },
 }
+  console.log(selectedId)
   return (
     <div>
       <ThemeProvider theme={theme}>
         <Typography variant="h6">TrackList</Typography>
         <div className="tracks">
-          <QueryTracks token={token} wordFormData={wordFormData} setItemResult={ setItemResult }/>
+          <TrackData token={token}
+            id={selectedId}
+            setTrackInfo={setTrackInfo} />
+          <QueryTracks token={token}
+            wordFormData={wordFormData}
+            setItemResult={setItemResult} />
+          {trackInfo !== undefined
+            ?<p>曲を選んでください</p>
+            :{trackInfo}
+
+      }
       { itemResult !== undefined
         ? itemResult.length === 0
         ? <p>そんな曲ないわ</p>
         : <ul>
             {itemResult.map((props) =>
-              <li key={props.id}>
+              <li
+                key={props.id}
+                onClick={(e) => setSelectedId(e.target.props.name)}>
                 <img src={props.album.images[1].url} />
                 <Box component="div" textOverflow="ellipsis" overflow="hidden" className="tracks-info">
                     {props.name}<br/>
