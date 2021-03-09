@@ -18,7 +18,7 @@ const TrackData = (props) => {
   }, [props.id])
   return (
     <div>
-      { props.setTrackInfo}
+      { props.setTrackInfo }
     <p>hello</p>
     </div>
   )
