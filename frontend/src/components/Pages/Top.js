@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+import {Link} from "react-router-dom"
 import Credentials from '../Molecules/Credentials'
 import Header from '../Organisms/Header'
+import Button from '@material-ui/core/Button'
 import Search from '../Organisms/Search'
 import {
   makeStyles
@@ -44,6 +46,9 @@ const Top = () => {
             onChange={(e) => setWordFormData(e.target.value)}
             />
         </form>
+        <Link to="/analysis">
+          <Button>Analysis</Button>
+        </Link>
         {wordFormData.length === 0
           ? <h2>Fill the form</h2>
           : <Search token={token} wordFormData={wordFormData} />

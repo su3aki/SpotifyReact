@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import axios from 'axios'
 
-const TrackData = (props) => {
+const TrackInfo = (props) => {
   useEffect(() => {
     //曲IDからトラックパラメータ取得
     axios(`https://api.spotify.com/v1/audio-features/${props.id}`, {
@@ -13,6 +13,9 @@ const TrackData = (props) => {
     }).then((trackInfoResponse) => {
       props.setTrackInfo(trackInfoResponse)
     })
+    .catch((err) => {
+        console.log("err:", err)
+      })
   }, [props.id])
   return (
     <div>
@@ -20,4 +23,4 @@ const TrackData = (props) => {
     </div>
   )
 }
-export default TrackData;
+export default TrackInfo;

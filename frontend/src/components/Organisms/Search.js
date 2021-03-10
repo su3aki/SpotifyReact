@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import TrackData from '../Molecules/TrackData'
+import TrackParams from '../Molecules/TrackParams'
+import TrackCard from '../Molecules/TrackCard'
 import QueryTracks from "../Molecules/QueryTracks"
 import Box from '@material-ui/core/Box'
 import './Search.css'
@@ -27,7 +28,8 @@ const Search = (props) => {
     fontSize: '3rem',
   },
   }
-
+//trackParamsは曲の分析結果
+//trackInfoは曲のアーティスト情報など
   console.log(selectedTrack.trackId)
   console.log(trackInfo)
   return (
@@ -35,12 +37,15 @@ const Search = (props) => {
       <ThemeProvider theme={theme}>
         <Typography variant="h6">TrackList</Typography>
         <div className="tracks">
-          <TrackData token={token}
+          <TrackParams token={token}
             id={selectedTrack.trackId}
+            trackName={selectedTrack.trackName}
+            trackArtist={selectedTrack.trackArtist}
             setTrackInfo={setTrackInfo} />
           <QueryTracks token={token}
             wordFormData={wordFormData}
             setItemResult={setItemResult} />
+          <TrackCard></TrackCard>
           {trackInfo !== undefined
             ? trackInfo.length === 0
             ? <p>パラメータが存在しません</p>
@@ -57,12 +62,12 @@ const Search = (props) => {
                     onClick={() => setSelectedTrack({
                       trackId: props.id,
                       trackName: props.name,
+                      trackArtist: props.artists[0].name
                     })}>
-                    <img src={props.album.images[1].url} />
-                    <Box component="div" textOverflow="ellipsis" overflow="hidden" className="tracks-info" >
-                        {props.name}<br/>
-                        {props.album.artists[0].name}
-                    </Box>
+                      <TrackCard
+                      albumUrl={props.album.images[1].url}
+                      trackName={props.name}
+                      artistName={props.album.artists[0].name}></TrackCard>
                   </li>
                 )}
               </ul>
