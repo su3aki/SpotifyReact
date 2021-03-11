@@ -1,28 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Economica&family=Open+Sans&family=Sawarabi+Mincho&display=swap");
-/* background-color: #191414; */
 
 .App {
   background-color: #ffff;
   color: #1db954;
   font-family: "Economica", "Sawarabi Mincho", sans-serif;
-  font-size: calc(1px + 3vmin);
   min-height: 100vh;
   overflow: hidden;
   padding: 10px;
-  text-overflow: ellipsis;
   white-space: nowrap;
-}
-.App-textField {
-  color: #1db954;
-}
-.App-header {
-  flex-direction: column;
-  font-size: calc(10px + 3vmin);
-  color: #1db954;
-}
-.Form-complex {
-}
-
-.App-link {
-  color: #61dafb;
 }

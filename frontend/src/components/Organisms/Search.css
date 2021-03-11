@@ -1,17 +1,10 @@
 .tracks {
   color: #ee0077;
   font-size: 5vw;
-  width: max-content;
 }
 .tracks li {
   list-style: none;
   border-bottom: 1px solid #1db954;
-  padding: 10px;
-}
-.tracks img {
-  width: 15vw;
-  margin-right: 2vw;
-}
-.tracks-info {
-  display: inline-block;
+  width: auto;
+  padding: 4px;
 }

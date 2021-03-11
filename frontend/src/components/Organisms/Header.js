@@ -43,7 +43,7 @@ const Header = () => {
       </div>
     </Zoom>
   );
-}
+  }
   const theme = createMuiTheme({
     palette: {
       primary: {
