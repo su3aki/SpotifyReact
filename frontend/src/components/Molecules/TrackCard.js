@@ -13,9 +13,6 @@ const TrackCard = (props) => {
 		},
 		details: {
 			width: 'calc(100% - 120px)',
-			flexWrap: "nowrap",
-			textOverflow: "ellipsis",
-			overflow: "hidden"
 		},
 		content: {
 			textOverflow: "ellipsis",
@@ -32,11 +29,9 @@ const TrackCard = (props) => {
 	return (
 		<div>
 			<Card className={classes.root} elevation={2}>
-						<CardMedia
-							className={classes.cover}
-							image={props.albumUrl}
-					title="Live from space album cover"
-							/>
+				<CardMedia
+					className={classes.cover}
+					image={props.albumUrl}/>
       <div className={classes.details}>
 					<CardContent className={classes.content}>
           <Typography component="h6" variant="h6">

@@ -57,6 +57,8 @@ const Search = (props) => {
         <Recommend token={token}
           trackId={selectedTrack.trackId}
           artistId={selectedTrack.trackArtistId}
+          slideDanceMin={10}
+          slideDanceMax={100}
           setLookRecommend={setLookRecommend}/>
         {/* 選ばれた類似曲のパラメータ取得 */}
         <ReTrackParams token={token}
@@ -68,21 +70,21 @@ const Search = (props) => {
           {trackInfo.data !== undefined
             ? reTrackInfo.data !== undefined
             ?<ParamsGraph
-            trackName={selectedTrack.trackName}
-            FirstDanceAbility={trackInfo.data.danceability}
-            FirstEnergy={trackInfo.data.energy}
-            FirstLoudness={trackInfo.data.loudness}
-            FirstPopularity={selectedTrack.trackPopularity}
-            FirstTempo={trackInfo.data.tempo}
-            FirstValence={trackInfo.data.valence}
+              trackName={selectedTrack.trackName}
+              FirstDanceAbility={trackInfo.data.danceability}
+              FirstEnergy={trackInfo.data.energy}
+              FirstLoudness={trackInfo.data.loudness}
+              FirstPopularity={selectedTrack.trackPopularity}
+              FirstTempo={trackInfo.data.tempo}
+              FirstValence={trackInfo.data.valence}
 
-            reTrackName={selectedRecommend.reTrackName}
-            ReDanceAbility={reTrackInfo.data.danceability}
-            ReEnergy={reTrackInfo.data.energy}
-            ReLoudness={reTrackInfo.data.loudness}
-            RePopularity={selectedTrack.trackPopularity}
-            ReTempo={reTrackInfo.data.tempo}
-            ReValence={reTrackInfo.data.valence}
+              reTrackName={selectedRecommend.reTrackName}
+              ReDanceAbility={reTrackInfo.data.danceability}
+              ReEnergy={reTrackInfo.data.energy}
+              ReLoudness={reTrackInfo.data.loudness}
+              RePopularity={selectedTrack.trackPopularity}
+              ReTempo={reTrackInfo.data.tempo}
+              ReValence={reTrackInfo.data.valence}
             />
             : <p>reTrack undefinedエラー</p>
             : <p>undefinedエラー</p>
@@ -91,16 +93,16 @@ const Search = (props) => {
           <Grid xs={12} sm={6}>
         {lookRecommend !== undefined
           ? lookRecommend.length === 0
-          ? <p>サジェストリストが出ます</p>
-          : <ul>
+            ? <p>サジェストリストが出ます</p>
+            : <ul>
               {lookRecommend.map((props) =>
                 <li
-                key={props.id}
-                onClick={() => setSelectedRecommend({
-                  reTrackId: props.id,
-                  reTrackName: props.name,
-                  reTrackPopularity: props.popularity
-                })}>
+                  key={props.id}
+                  onClick={() => setSelectedRecommend({
+                    reTrackId: props.id,
+                    reTrackName: props.name,
+                    reTrackPopularity: props.popularity
+                  })}>
                   <TrackCard
                     albumUrl={props.album.images[1].url}
                     trackName={props.name}
@@ -115,8 +117,8 @@ const Search = (props) => {
         <p>検索結果</p>
         {itemResult !== undefined
           ? itemResult.length === 0
-          ? <p>そんな曲ないわ</p>
-          : <ul>
+            ? <p>そんな曲ないわ</p>
+            : <ul>
               {itemResult.map((props) =>
                 <li
                   key={props.id}
