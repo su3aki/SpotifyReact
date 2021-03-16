@@ -12,7 +12,7 @@ const ParamsGraph = (props) => {
 	const ReShTempo = (props.ReTempo * 0.01) -1
 
 	const data = {
-		labels: ['Popularity','Speedy','Loudness', 'Valence', 'Dancablity', 'Energy'],
+		labels: ['人気度','テンポ','ラウドネス', '明るさ', '踊りやすさ', 'エナジー'],
 		datasets: [
 			{
 				label: props.trackName,

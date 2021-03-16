@@ -32,11 +32,7 @@ const Search = (props) => {
   const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
-    },
-    paper: {
-      padding: theme.spacing(2),
-      textAlign: 'center',
-    },
+    }
   }))
   const classes = useStyles()
   //trackParamsは曲の分析結果　trackInfoに入る
@@ -45,8 +41,8 @@ const Search = (props) => {
   console.log(reTrackInfo)
   return (
     <div className={classes.root}>
-        <Typography variant="h6">TrackList</Typography>
-      <div className="tracks">
+      <Typography variant="h6">TrackList</Typography>
+    <div className="tracks">
         {/* 入力された単語から曲を検索 */}
         <QueryTracks token={token}
           wordFormData={wordFormData}
@@ -67,8 +63,7 @@ const Search = (props) => {
           id={selectedRecommend.reTrackId}
           setReTrackInfo={setReTrackInfo} />
         {/* グラフコンポーネントへの値設定 */}
-        <Grid>
-
+        <Grid container direction="row">
         <Grid item xs={12} sm={6}>
           {trackInfo.data !== undefined
             ? reTrackInfo.data !== undefined
@@ -94,7 +89,6 @@ const Search = (props) => {
           }
           </Grid>
           <Grid xs={12} sm={6}>
-        <p>類似曲</p>
         {lookRecommend !== undefined
           ? lookRecommend.length === 0
           ? <p>サジェストリストが出ます</p>

@@ -9,17 +9,22 @@ const TrackCard = (props) => {
 
 	const useStyles = makeStyles((theme) => ({
 		root: {
-			display: "flex"
+			display: "flex",
 		},
 		details: {
-
+			width: 'calc(100% - 120px)',
+			flexWrap: "nowrap",
+			textOverflow: "ellipsis",
+			overflow: "hidden"
 		},
 		content: {
-
+			textOverflow: "ellipsis",
+			overflow: "hidden",
+			whiteSpace: "nowrap"
 		},
 		cover: {
-			width: 150,
-			height: 150
+			width: 100,
+			height: 100
 		},
 	}));
 
