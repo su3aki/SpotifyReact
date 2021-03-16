@@ -27,21 +27,18 @@ const TrackCard = (props) => {
 			height: 100
 		},
 	}));
-
 	const classes = useStyles();
 	const theme = useTheme()
 	return (
 		<div>
-			<Card className={classes.root}
-				elevation={2}>
+			<Card className={classes.root} elevation={2}>
 						<CardMedia
 							className={classes.cover}
 							image={props.albumUrl}
 					title="Live from space album cover"
 							/>
       <div className={classes.details}>
-					<CardContent className={classes.content}
-					>
+					<CardContent className={classes.content}>
           <Typography component="h6" variant="h6">
             {props.trackName}
           </Typography>
