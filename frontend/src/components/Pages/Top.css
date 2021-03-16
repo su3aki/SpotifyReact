@@ -4,8 +4,5 @@
   background-color: #ffff;
   color: #1db954;
   font-family: "Economica", "Sawarabi Mincho", sans-serif;
-  min-height: 100vh;
-  overflow: hidden;
   padding: 10px;
-  white-space: nowrap;
 }

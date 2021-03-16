@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import axios from 'axios'
 
-const TrackParams = (props) => {
+const ReTrackParams = (props) => {
   useEffect(() => {
     //曲IDからトラックパラメータ取得
     axios(`https://api.spotify.com/v1/audio-features/${props.id}`, {
@@ -10,8 +10,8 @@ const TrackParams = (props) => {
         Authorization: "Bearer " + props.token,
         Accept: "application/json",
         "Content-type": "application/json"}
-    }).then((trackInfoResponse) => {
-      props.setTrackInfo(trackInfoResponse)
+    }).then((reTrackInfoResponse) => {
+      props.setReTrackInfo(reTrackInfoResponse)
     })
     .catch((err) => {
         console.log("err:", err)
@@ -19,8 +19,8 @@ const TrackParams = (props) => {
   }, [props.id])
   return (
     <div>
-      { props.setTrackInfo }
+      { props.setReTrackInfo }
     </div>
   )
 }
-export default TrackParams;
+export default ReTrackParams;

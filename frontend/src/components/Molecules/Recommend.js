@@ -1,26 +1,27 @@
 import React, { useEffect } from 'react'
 import axios from 'axios'
 
-const TrackInfo = (props) => {
+const Recommend = (props) => {
   useEffect(() => {
     //曲IDからトラックパラメータ取得
-    axios(`https://api.spotify.com/v1/audio-features/${props.id}`, {
+    axios(`https://api.spotify.com/v1/recommendations?limit=1&seed_artists=${props.artistId}&seed_genres=${props.genres}&seed_tracks=${props.trackId}`, {
       method: "GET",
       headers: {
         Authorization: "Bearer " + props.token,
         Accept: "application/json",
         "Content-type": "application/json"}
-    }).then((trackInfoResponse) => {
-      props.setTrackInfo(trackInfoResponse)
-    })
+    }).then((recommendResponse) => {
+			props.setLookRecommend(recommendResponse.data.tracks)
+			console.log(recommendResponse.data)
+		})
     .catch((err) => {
         console.log("err:", err)
       })
-  }, [props.id])
+  }, [props.trackId])
   return (
     <div>
-      { props.setTrackInfo }
+      { props.setLookRecommend }
     </div>
   )
 }
-export default TrackInfo;
+export default Recommend;
