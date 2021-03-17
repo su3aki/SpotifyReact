@@ -10,6 +10,7 @@ import './Top.css'
 import Typography from '@material-ui/core/Typography'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 
+
 const Top = () => {
   const [token, setToken] = useState("")
   const [wordFormData, setWordFormData] = useState("")
@@ -23,29 +24,51 @@ const Top = () => {
   const customFont = "'Economica', 'Sawarabi Mincho', sans-serif"
 
   const theme = createMuiTheme({
+    palette: {
+      white: {
+        text: "#FFF"
+      }
+    },
     typography: {
       fontFamily: customFont,
     }
   })
   const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
+      display: 'flex',
     },
   margin: {
     margin: theme.spacing(1),
-  },
+    },
+  input: {
+      backgroundColor: "#1e1022",
+      color: "#FFF"
+  }
 }));
 
+  const useLabelStyles = makeStyles({
+  root: {
+    color: "white",
+    "&.Mui-focused": {
+      color: "#1db954"
+    }
+  }
+})
   const classes = useStyles()
+  const labelClasses = useLabelStyles()
     return (
       <div className="App">
         <ThemeProvider theme={theme}>
         <Credentials setToken={ setToken }/>
-        <Header/>
+          <Header />
+          <br/>
+          <Typography variant="h3"><br/><br/>Search from here↓</Typography>
         <form className={classes.root} noValidate onSubmit={handleSubmit}>
           <TextField
             className={classes.margin}
             id="standard-basic"
+            InputProps={{ classes: classes }}
+            InputLabelProps={{ classes: labelClasses }}
             label="trackname?"
             value={wordFormData}
             fullWidth
@@ -56,8 +79,8 @@ const Top = () => {
         </form>
         {wordFormData.length === 0
             ?
-            <Typography>
-              Fill The Form
+            <Typography variant="h5">
+              <br/>検索結果がここに出ます
             </Typography>
           : <Search token={token} wordFormData={wordFormData} />
         }

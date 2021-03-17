@@ -5,7 +5,7 @@ import TrackCard from '../Molecules/TrackCard'
 import QueryTracks from "../Molecules/QueryTracks"
 import ParamsGraph from '../Molecules/ParamsGraph'
 import Recommend from '../Molecules/Recommend'
-import { Typography } from '@material-ui/core'
+import { Button, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import Grid from '@material-ui/core/Grid'
 import './Search.css'
@@ -27,6 +27,7 @@ const Search = (props) => {
     reTrackPopularity: "",
   })
   const [reTrackInfo, setReTrackInfo] = useState("")
+  const [graphReDisplay, setGraphReDisplay] = useState("none")
   const token = props.token
   const wordFormData = props.wordFormData
   const useStyles = makeStyles((theme) => ({
@@ -41,7 +42,6 @@ const Search = (props) => {
   console.log(reTrackInfo)
   return (
     <div className={classes.root}>
-      <Typography variant="h6">TrackList</Typography>
     <div className="tracks">
         {/* 入力された単語から曲を検索 */}
         <QueryTracks token={token}
@@ -66,7 +66,7 @@ const Search = (props) => {
           setReTrackInfo={setReTrackInfo} />
         {/* グラフコンポーネントへの値設定 */}
         <Grid container direction="row">
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={6} style={{ display: graphReDisplay}}>
           {trackInfo.data !== undefined
             ? reTrackInfo.data !== undefined
             ?<ParamsGraph
@@ -90,7 +90,7 @@ const Search = (props) => {
             : <p>undefinedエラー</p>
           }
           </Grid>
-          <Grid xs={12} sm={6}>
+          <Grid xs={12} sm={6} style={{ display: graphReDisplay}}>
         {lookRecommend !== undefined
           ? lookRecommend.length === 0
             ? <p>サジェストリストが出ます</p>
@@ -114,7 +114,9 @@ const Search = (props) => {
         }
         </Grid>
         </Grid>
-        <p>検索結果</p>
+        <Button color="secondary" onClick={() => {setGraphReDisplay("block")}}>グラフ表示</Button>
+        <Button color="secondary" onClick={() => {setGraphReDisplay("none")}}>グラフ非表示</Button>
+        <Typography variant="h6">TrackList</Typography>
         {itemResult !== undefined
           ? itemResult.length === 0
             ? <p>そんな曲ないわ</p>
@@ -131,8 +133,11 @@ const Search = (props) => {
                   })}>
                   <TrackCard
                     albumUrl={props.album.images[1].url}
+                    artistName={props.album.artists[0].name}
                     trackName={props.name}
-                    artistName={props.album.artists[0].name}></TrackCard>
+                    previewUrl={props.preview_url}
+                  >
+                  </TrackCard>
                 </li>
               )}
             </ul>

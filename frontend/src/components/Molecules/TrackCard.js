@@ -10,6 +10,8 @@ const TrackCard = (props) => {
 	const useStyles = makeStyles((theme) => ({
 		root: {
 			display: "flex",
+			backgroundColor: "#1e1022",
+			color: "#ff87d6"
 		},
 		details: {
 			width: 'calc(100% - 120px)',
@@ -23,6 +25,9 @@ const TrackCard = (props) => {
 			width: 100,
 			height: 100
 		},
+		subtitle: {
+			color: "#a699a2",
+		}
 	}));
 	const classes = useStyles();
 	const theme = useTheme()
@@ -36,10 +41,12 @@ const TrackCard = (props) => {
 					<CardContent className={classes.content}>
           <Typography component="h6" variant="h6">
             {props.trackName}
-          </Typography>
-          <Typography variant="subtitle1" color="textSecondary">
+						</Typography>
+						<div className={classes.subtitle}>
+          <Typography variant="subtitle1">
             {props.artistName}
           </Typography>
+						</div>
         </CardContent>
       </div>
 				</Card>

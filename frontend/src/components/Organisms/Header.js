@@ -47,7 +47,10 @@ const Header = () => {
   const theme = createMuiTheme({
     palette: {
       primary: {
-        main: '#ffffff'
+        main: '#1e1022'
+      },
+      secondary: {
+        main: '#DF0869'
       }}
   })
   theme.typography.h3 = {
@@ -69,13 +72,14 @@ ScrollTop.propTypes = {
       <ThemeProvider theme={theme}>
       <CssBaseline />
       <AppBar>
-        <Toolbar>
-          <Typography variant="h3">Ronshex</Typography>
+          <Toolbar>
+
+          <Typography color="secondary" variant="h3">Ronshex</Typography>
         </Toolbar>
       </AppBar>
       <Toolbar id="back-to-top-anchor" />
       <ScrollTop>
-        <Fab color="primary" size="small" aria-label="scroll back to top">
+        <Fab color="secondary" size="small" aria-label="scroll back to top">
           <KeyboardArrowUpIcon />
         </Fab>
       </ScrollTop>

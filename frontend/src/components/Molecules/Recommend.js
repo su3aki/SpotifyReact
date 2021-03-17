@@ -4,7 +4,7 @@ import axios from 'axios'
 const Recommend = (props) => {
   useEffect(() => {
     //曲IDからトラックパラメータ取得
-    axios(`https://api.spotify.com/v1/recommendations?limit=5&seed_artists=${props.artistId}&seed_genres=${props.genres}&seed_tracks=${props.trackId}`, {
+    axios(`https://api.spotify.com/v1/recommendations?limit=10&seed_artists=${props.artistId}&seed_genres=${props.genres}&seed_tracks=${props.trackId}`, {
       method: "GET",
       headers: {
         Authorization: "Bearer " + props.token,
