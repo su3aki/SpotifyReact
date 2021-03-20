@@ -48,9 +48,14 @@ const TrackCard = (props) => {
             {props.artistName}
           </Typography>
 						</div>
-						<ReactAudioPlayer
+						{props.previewUrl === null
+							? <Typography>
+								再生不可
+							</Typography>
+							:<ReactAudioPlayer
 							src={props.previewUrl}
 							controls/>
+						}
         </CardContent>
       </div>
 				</Card>

@@ -8,6 +8,8 @@ import Recommend from '../Molecules/Recommend'
 import { Button, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import Grid from '@material-ui/core/Grid'
+import MMplayer from '../Atoms/MMplayer'
+import anime from 'animmejs'
 import './Search.css'
 
 const Search = (props) => {
@@ -40,9 +42,12 @@ const Search = (props) => {
   console.log(selectedTrack.trackId)
   console.log(trackInfo)
   console.log(reTrackInfo)
+
   return (
     <div className={classes.root}>
-    <div className="tracks">
+      <div className="tracks">
+        <MMplayer></MMplayer>
+        {/* <LoadingAnimation></LoadingAnimation> */}
         {/* 入力された単語から曲を検索 */}
         <QueryTracks token={token}
           wordFormData={wordFormData}
@@ -70,21 +75,21 @@ const Search = (props) => {
           {trackInfo.data !== undefined
             ? reTrackInfo.data !== undefined
             ?<ParamsGraph
-              trackName={selectedTrack.trackName}
-              FirstDanceAbility={trackInfo.data.danceability}
-              FirstEnergy={trackInfo.data.energy}
-              FirstLoudness={trackInfo.data.loudness}
-              FirstPopularity={selectedTrack.trackPopularity}
-              FirstTempo={trackInfo.data.tempo}
-              FirstValence={trackInfo.data.valence}
+            trackName={selectedTrack.trackName}
+            FirstDanceAbility={trackInfo.data.danceability}
+            FirstEnergy={trackInfo.data.energy}
+            FirstLoudness={trackInfo.data.loudness}
+            FirstPopularity={selectedTrack.trackPopularity}
+            FirstTempo={trackInfo.data.tempo}
+            FirstValence={trackInfo.data.valence}
 
-              reTrackName={selectedRecommend.reTrackName}
-              ReDanceAbility={reTrackInfo.data.danceability}
-              ReEnergy={reTrackInfo.data.energy}
-              ReLoudness={reTrackInfo.data.loudness}
-              RePopularity={selectedTrack.trackPopularity}
-              ReTempo={reTrackInfo.data.tempo}
-              ReValence={reTrackInfo.data.valence}
+            reTrackName={selectedRecommend.reTrackName}
+            ReDanceAbility={reTrackInfo.data.danceability}
+            ReEnergy={reTrackInfo.data.energy}
+            ReLoudness={reTrackInfo.data.loudness}
+            RePopularity={selectedTrack.trackPopularity}
+            ReTempo={reTrackInfo.data.tempo}
+            ReValence={reTrackInfo.data.valence}
             />
             : <p>reTrack undefinedエラー</p>
             : <p>undefinedエラー</p>
@@ -93,20 +98,23 @@ const Search = (props) => {
           <Grid xs={12} sm={6} style={{ display: graphReDisplay}}>
         {lookRecommend !== undefined
           ? lookRecommend.length === 0
-            ? <p>サジェストリストが出ます</p>
-            : <ul>
+          ? <p>サジェストリストが出ます</p>
+          : <ul>
               {lookRecommend.map((props) =>
                 <li
-                  key={props.id}
-                  onClick={() => setSelectedRecommend({
-                    reTrackId: props.id,
-                    reTrackName: props.name,
-                    reTrackPopularity: props.popularity
-                  })}>
+                key={props.id}
+                onClick={() => setSelectedRecommend({
+                  reTrackId: props.id,
+                  reTrackName: props.name,
+                  reTrackPopularity: props.popularity
+                })}>
                   <TrackCard
                     albumUrl={props.album.images[1].url}
+                    artistName={props.album.artists[0].name}
                     trackName={props.name}
-                    artistName={props.album.artists[0].name}></TrackCard>
+                    previewUrl={props.preview_url}
+                    >
+                    </TrackCard>
                 </li>
               )}
             </ul>
@@ -131,12 +139,12 @@ const Search = (props) => {
                     trackArtistId: props.artists[0].id,
                     trackPopularity: props.popularity
                   })}>
-                  <TrackCard
+                    <TrackCard
                     albumUrl={props.album.images[1].url}
                     artistName={props.album.artists[0].name}
                     trackName={props.name}
                     previewUrl={props.preview_url}
-                  >
+                    >
                   </TrackCard>
                 </li>
               )}
