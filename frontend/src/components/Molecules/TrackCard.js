@@ -4,6 +4,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
+import ReactAudioPlayer from "react-audio-player"
 
 const TrackCard = (props) => {
 
@@ -47,6 +48,9 @@ const TrackCard = (props) => {
             {props.artistName}
           </Typography>
 						</div>
+						<ReactAudioPlayer
+							src={props.previewUrl}
+							controls/>
         </CardContent>
       </div>
 				</Card>
