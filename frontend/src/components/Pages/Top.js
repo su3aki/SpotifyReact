@@ -6,8 +6,10 @@ import {
   makeStyles
 } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
+import NeonButton from '../Atoms/NeonButton'
 import './Top.css'
 import Typography from '@material-ui/core/Typography'
+import Iframe from 'react-iframe'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 
 
@@ -35,15 +37,12 @@ const Top = () => {
   })
   const useStyles = makeStyles((theme) => ({
   root: {
-      display: 'flex',
-    },
-  margin: {
-    margin: theme.spacing(1),
-    },
+    display: 'flex',
+  },
   input: {
-      backgroundColor: "#1e1022",
-      color: "#FFF"
-  }
+    backgroundColor: "#1e1022",
+    color: "#FFF"
+  },
 }));
 
   const useLabelStyles = makeStyles({
@@ -65,7 +64,6 @@ const Top = () => {
           <Typography variant="h3"><br/><br/>Search from here↓</Typography>
         <form className={classes.root} noValidate onSubmit={handleSubmit}>
           <TextField
-            className={classes.margin}
             id="standard-basic"
             InputProps={{ classes: classes }}
             InputLabelProps={{ classes: labelClasses }}
@@ -85,6 +83,7 @@ const Top = () => {
           : <Search token={token} wordFormData={wordFormData} />
         }
         </ThemeProvider>
+        <NeonButton></NeonButton>
         </div>
     )
   }

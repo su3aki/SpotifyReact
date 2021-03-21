@@ -46,7 +46,7 @@ const TrackCard = (props) => {
 						<div className={classes.subtitle}>
           <Typography variant="subtitle1">
             {props.artistName}
-          </Typography>
+							</Typography>
 						</div>
 						{props.previewUrl === null
 							? <Typography>

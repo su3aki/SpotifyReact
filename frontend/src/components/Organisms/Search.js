@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
-import TrackParams from '../Molecules/TrackParams'
-import ReTrackParams from '../Molecules/ReTrackParams'
-import TrackCard from '../Molecules/TrackCard'
+import ArtistParams from '../Molecules/ArtistParams'
 import QueryTracks from "../Molecules/QueryTracks"
-import ParamsGraph from '../Molecules/ParamsGraph'
 import Recommend from '../Molecules/Recommend'
+import ReTrackParams from '../Molecules/ReTrackParams'
+import ParamsGraph from '../Molecules/ParamsGraph'
+import TrackCard from '../Molecules/TrackCard'
+import TrackParams from '../Molecules/TrackParams'
 import { Button, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import Grid from '@material-ui/core/Grid'
-import MMplayer from '../Atoms/MMplayer'
-import anime from 'animmejs'
 import './Search.css'
 
 const Search = (props) => {
@@ -20,8 +19,10 @@ const Search = (props) => {
     trackName: "",
     trackArtistName: "",
     trackArtistId: "",
+    trackArtistGenres: "",
     trackPopularity: ""
   })
+  const [artistInfo, setArtistInfo] = useState("")
   const [lookRecommend, setLookRecommend] = useState([])
   const [selectedRecommend, setSelectedRecommend] = useState({
     reTrackId: "",
@@ -42,33 +43,34 @@ const Search = (props) => {
   console.log(selectedTrack.trackId)
   console.log(trackInfo)
   console.log(reTrackInfo)
-
+  console.log(artistInfo)
   return (
     <div className={classes.root}>
       <div className="tracks">
-        <MMplayer></MMplayer>
-        {/* <LoadingAnimation></LoadingAnimation> */}
         {/* 入力された単語から曲を検索 */}
         <QueryTracks token={token}
           wordFormData={wordFormData}
           setItemResult={setItemResult} />
-        {/* 選ばれた曲のパラメータ取得 */}
+        {/* 選ばれた曲のパラメータを取得 */}
         <TrackParams token={token}
           id={selectedTrack.trackId}
           trackName={selectedTrack.trackName}
           trackArtist={selectedTrack.trackArtist}
           setTrackInfo={setTrackInfo} />
-        {/* 選ばれた曲から類似曲を取得 */}
+        {/* 選ばれた曲のアーティスト情報を取得 */}
+        <ArtistParams token={token}
+          artistId={selectedTrack.trackArtistId}
+          setArtistInfo={setArtistInfo}/>
+        {/* 選ばれた曲を元に類似曲を取得 */}
         <Recommend token={token}
           trackId={selectedTrack.trackId}
           artistId={selectedTrack.trackArtistId}
-          slideDanceMin={10}
-          slideDanceMax={100}
+          artistGenres={selectedTrack.trackArtistGenres}
           setLookRecommend={setLookRecommend}/>
         {/* 選ばれた類似曲のパラメータ取得 */}
         <ReTrackParams token={token}
           id={selectedRecommend.reTrackId}
-          setReTrackInfo={setReTrackInfo} />
+          setReTrackInfo={setReTrackInfo}/>
         {/* グラフコンポーネントへの値設定 */}
         <Grid container direction="row">
         <Grid item xs={12} sm={6} style={{ display: graphReDisplay}}>
@@ -135,17 +137,17 @@ const Search = (props) => {
                   onClick={() => setSelectedTrack({
                     trackId: props.id,
                     trackName: props.name,
-                    trackArtistName: props.artists[0].name,
+                    trackArtistGenres: artistInfo.genres,
                     trackArtistId: props.artists[0].id,
+                    trackArtistName: props.artists[0].name,
                     trackPopularity: props.popularity
                   })}>
                     <TrackCard
                     albumUrl={props.album.images[1].url}
                     artistName={props.album.artists[0].name}
                     trackName={props.name}
-                    previewUrl={props.preview_url}
-                    >
-                  </TrackCard>
+                    previewUrl={props.preview_url}>
+                    </TrackCard>
                 </li>
               )}
             </ul>
