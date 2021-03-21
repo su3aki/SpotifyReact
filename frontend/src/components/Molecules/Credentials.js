@@ -1,7 +1,7 @@
 import React,{ useEffect }from 'react'
 import axios from 'axios'
 
-const Credentials = (props) => {
+const Credentials = React.memo((props) => {
   useEffect(() => {
     axios("https://accounts.spotify.com/api/token", {
       method: "POST",
@@ -24,5 +24,5 @@ const Credentials = (props) => {
       { props.setToken }
     </div>
   )
-  }
+  })
 export default Credentials;

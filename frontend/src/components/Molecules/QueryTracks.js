@@ -1,7 +1,7 @@
 import React,{ useEffect }from 'react'
 import axios from 'axios'
 
-const QueryTracks = (props) => {
+const QueryTracks = React.memo((props) => {
   useEffect(() => {
     //曲名単語検索
     axios(`https://api.spotify.com/v1/search?query=${props.wordFormData}&type=track&market=US&limit=10`, {
@@ -26,5 +26,5 @@ const QueryTracks = (props) => {
       { props.setItemResult }
     </div>
   )
-}
+})
 export default QueryTracks;

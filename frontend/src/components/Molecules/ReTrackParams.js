@@ -12,6 +12,7 @@ const ReTrackParams = (props) => {
         "Content-type": "application/json"}
     }).then((reTrackInfoResponse) => {
       props.setReTrackInfo(reTrackInfoResponse)
+      console.log(reTrackInfoResponse)
     })
     .catch((err) => {
         console.log("err:", err)

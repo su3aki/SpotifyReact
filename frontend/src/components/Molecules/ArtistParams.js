@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import axios from 'axios'
 
-const ArtistParams = (props) => {
+const ArtistParams = React.memo((props) => {
   useEffect(() => {
     //受け取ったアーティストIDから
     axios(`https://api.spotify.com/v1/artists/${props.artistId}`, {
@@ -12,6 +12,7 @@ const ArtistParams = (props) => {
         "Content-type": "application/json"}
     }).then((artistResponse) => {
       props.setArtistInfo(artistResponse.data)
+      console.log(artistResponse.data)
     })
     .catch((err) => {
         console.log("err:", err)
@@ -19,8 +20,8 @@ const ArtistParams = (props) => {
   }, [props.artistId])
   return (
     <div>
-      { props.setArtistInfo}
+      { props.setArtistInfo }
     </div>
   )
-}
+})
 export default ArtistParams;

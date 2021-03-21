@@ -7,10 +7,9 @@ import {
 } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import NeonButton from '../Atoms/NeonButton'
-import './Top.css'
 import Typography from '@material-ui/core/Typography'
-import Iframe from 'react-iframe'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import './Top.css'
 
 
 const Top = () => {
@@ -61,7 +60,7 @@ const Top = () => {
         <Credentials setToken={ setToken }/>
           <Header />
           <br/>
-          <Typography variant="h3"><br/><br/>Search from here↓</Typography>
+          <Typography variant="h3"><br /><br />Search from here↓</Typography>
         <form className={classes.root} noValidate onSubmit={handleSubmit}>
           <TextField
             id="standard-basic"

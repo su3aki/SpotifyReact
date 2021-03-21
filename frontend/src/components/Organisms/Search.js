@@ -26,24 +26,22 @@ const Search = (props) => {
   const [lookRecommend, setLookRecommend] = useState([])
   const [selectedRecommend, setSelectedRecommend] = useState({
     reTrackId: "",
-    reTrackName: "",
+    reTrackName: "none",
     reTrackPopularity: "",
   })
   const [reTrackInfo, setReTrackInfo] = useState("")
   const [graphReDisplay, setGraphReDisplay] = useState("none")
   const token = props.token
   const wordFormData = props.wordFormData
+
   const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
     }
   }))
   const classes = useStyles()
+  console.log(artistInfo.genres)
   //trackParamsは曲の分析結果　trackInfoに入る
-  console.log(selectedTrack.trackId)
-  console.log(trackInfo)
-  console.log(reTrackInfo)
-  console.log(artistInfo)
   return (
     <div className={classes.root}>
       <div className="tracks">
@@ -58,16 +56,22 @@ const Search = (props) => {
           trackArtist={selectedTrack.trackArtist}
           setTrackInfo={setTrackInfo} />
         {/* 選ばれた曲のアーティスト情報を取得 */}
-        <ArtistParams token={token}
+        {/* 発火条件：トラック選択完了後 */}
+        { selectedTrack.length !== 0
+          &&<ArtistParams token={token}
           artistId={selectedTrack.trackArtistId}
-          setArtistInfo={setArtistInfo}/>
+          setArtistInfo={setArtistInfo} />}
         {/* 選ばれた曲を元に類似曲を取得 */}
-        <Recommend token={token}
+        {/* 発火条件：アーティスト情報取得後 */}
+        {/* 注釈：ジャンル数が多いと検索に出ない為、3つまでしか取得しない */}
+        { artistInfo.length !== 0
+          &&<Recommend token={token}
           trackId={selectedTrack.trackId}
           artistId={selectedTrack.trackArtistId}
-          artistGenres={selectedTrack.trackArtistGenres}
-          setLookRecommend={setLookRecommend}/>
+          artistGenres={(artistInfo.genres).slice(0,3)}
+          setLookRecommend={setLookRecommend} />}
         {/* 選ばれた類似曲のパラメータ取得 */}
+
         <ReTrackParams token={token}
           id={selectedRecommend.reTrackId}
           setReTrackInfo={setReTrackInfo}/>
@@ -97,11 +101,10 @@ const Search = (props) => {
             : <p>undefinedエラー</p>
           }
           </Grid>
-          <Grid xs={12} sm={6} style={{ display: graphReDisplay}}>
+          <Grid item xs={12} sm={6} style={{ display: graphReDisplay}}>
         {lookRecommend !== undefined
-          ? lookRecommend.length === 0
-          ? <p>サジェストリストが出ます</p>
-          : <ul>
+          && (artistInfo.genres) !== undefined
+          && <ul>
               {lookRecommend.map((props) =>
                 <li
                 key={props.id}
@@ -120,7 +123,6 @@ const Search = (props) => {
                 </li>
               )}
             </ul>
-          :<p>ここにサジェストリストが現れます</p>
         }
         </Grid>
         </Grid>
@@ -137,7 +139,6 @@ const Search = (props) => {
                   onClick={() => setSelectedTrack({
                     trackId: props.id,
                     trackName: props.name,
-                    trackArtistGenres: artistInfo.genres,
                     trackArtistId: props.artists[0].id,
                     trackArtistName: props.artists[0].name,
                     trackPopularity: props.popularity

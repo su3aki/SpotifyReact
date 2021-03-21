@@ -1,8 +1,7 @@
 import React from 'react'
 import { Radar } from 'react-chartjs-2'
 
-const ParamsGraph = (props) => {
-	//
+const ParamsGraph = React.memo((props) => {
 	const ShrinkedPopularity = props.FirstPopularity * 0.01
 	const ShrinkedLoudness = (props.FirstLoudness + 10) * 0.1
 	const ShrinkedTempo = (props.FirstTempo * 0.01) - 1
@@ -39,7 +38,7 @@ const ParamsGraph = (props) => {
 				pointHoverBorderColor: '#db5dfe',
 				pointRadius: 0,
 				data: [ReShPopularity, ReShTempo, ReShLoudness, props.ReValence, props.ReDanceAbility, props.ReEnergy]
-			}
+				}
 		]
 	}
 	const myOptions = {
@@ -69,5 +68,5 @@ const ParamsGraph = (props) => {
 			width={600}
 			height={600}/>
 	)
-	}
+	})
 export default ParamsGraph;

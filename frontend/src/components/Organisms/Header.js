@@ -11,7 +11,7 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import Zoom from '@material-ui/core/Zoom'
 import { createMuiTheme } from '@material-ui/core/styles'
 import { ThemeProvider } from '@material-ui/styles'
-const Header = () => {
+const Header = React.memo(() => {
   const useStyles = makeStyles((theme) => ({
     root: {
       position: 'fixed',
@@ -86,5 +86,5 @@ ScrollTop.propTypes = {
       </ThemeProvider>
     </React.Fragment>
   )
-}
+})
 export default Header;
