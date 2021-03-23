@@ -38,7 +38,7 @@ const TrackCard = (props) => {
 				<CardMedia
 					className={classes.cover}
 					image={props.albumUrl}/>
-      <div className={classes.details}>
+        <div className={classes.details}>
 					<CardContent className={classes.content}>
           <Typography component="h6" variant="h6">
             {props.trackName}
@@ -52,7 +52,7 @@ const TrackCard = (props) => {
 							? <Typography>
 								再生不可
 							</Typography>
-							:<ReactAudioPlayer
+								:<ReactAudioPlayer
 							src={props.previewUrl}
 							controls/>
 						}
