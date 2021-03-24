@@ -24,5 +24,6 @@ const Recommend = (props) => {
       { props.setLookRecommend }
     </div>
   )
+
 }
 export default Recommend;

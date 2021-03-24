@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -40,8 +40,8 @@ const TrackCard = (props) => {
 					image={props.albumUrl}/>
         <div className={classes.details}>
 					<CardContent className={classes.content}>
-          <Typography component="h6" variant="h6">
-            {props.trackName}
+            <Typography component="h6" variant="h6">
+              {props.trackName}
 						</Typography>
 						<div className={classes.subtitle}>
           <Typography variant="subtitle1">
@@ -56,8 +56,8 @@ const TrackCard = (props) => {
 							src={props.previewUrl}
 							controls/>
 						}
-        </CardContent>
-      </div>
+          </CardContent>
+				</div>
 				</Card>
 				</div>
   );

@@ -6,6 +6,7 @@ import ReTrackParams from '../Molecules/ReTrackParams'
 import ParamsGraph from '../Molecules/ParamsGraph'
 import TrackCard from '../Molecules/TrackCard'
 import TrackParams from '../Molecules/TrackParams'
+import Trail from '../Atoms/Trail'
 import { Button, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import Grid from '@material-ui/core/Grid'
@@ -31,6 +32,7 @@ const Search = (props) => {
   })
   const [reTrackInfo, setReTrackInfo] = useState("")
   const [graphReDisplay, setGraphReDisplay] = useState("none")
+  const [open, setTrail] = useState(true)
   const token = props.token
   const wordFormData = props.wordFormData
 
@@ -59,19 +61,18 @@ const Search = (props) => {
         {/* 発火条件：トラック選択完了後 */}
         { selectedTrack.length !== 0
           &&<ArtistParams token={token}
-          artistId={selectedTrack.trackArtistId}
-          setArtistInfo={setArtistInfo} />}
+            artistId={selectedTrack.trackArtistId}
+            setArtistInfo={setArtistInfo} />}
         {/* 選ばれた曲を元に類似曲を取得 */}
         {/* 発火条件：アーティスト情報取得後 */}
         {/* 注釈：ジャンル数が多いと検索に出ない為、3つまでしか取得しない */}
         { artistInfo.length !== 0
           &&<Recommend token={token}
-          trackId={selectedTrack.trackId}
-          artistId={selectedTrack.trackArtistId}
-          artistGenres={(artistInfo.genres).slice(0,3)}
-          setLookRecommend={setLookRecommend} />}
+            trackId={selectedTrack.trackId}
+            artistId={selectedTrack.trackArtistId}
+            artistGenres={(artistInfo.genres).slice(0,3)}
+            setLookRecommend={setLookRecommend} />}
         {/* 選ばれた類似曲のパラメータ取得 */}
-
         <ReTrackParams token={token}
           id={selectedRecommend.reTrackId}
           setReTrackInfo={setReTrackInfo}/>
@@ -79,8 +80,9 @@ const Search = (props) => {
         <Grid container direction="row">
         <Grid item xs={12} sm={6} style={{ display: graphReDisplay}}>
           {trackInfo.data !== undefined
-            ? reTrackInfo.data !== undefined
-            ?<ParamsGraph
+            && reTrackInfo.data !== undefined
+              && <ParamsGraph
+        // 検索結果で選んだ曲のパラメータをグラフに投入
             trackName={selectedTrack.trackName}
             FirstDanceAbility={trackInfo.data.danceability}
             FirstEnergy={trackInfo.data.energy}
@@ -88,7 +90,7 @@ const Search = (props) => {
             FirstPopularity={selectedTrack.trackPopularity}
             FirstTempo={trackInfo.data.tempo}
             FirstValence={trackInfo.data.valence}
-
+        // サジェストで選んだ曲のパラメータをグラフに投入
             reTrackName={selectedRecommend.reTrackName}
             ReDanceAbility={reTrackInfo.data.danceability}
             ReEnergy={reTrackInfo.data.energy}
@@ -97,14 +99,21 @@ const Search = (props) => {
             ReTempo={reTrackInfo.data.tempo}
             ReValence={reTrackInfo.data.valence}
             />
-            : <p>reTrack undefinedエラー</p>
-            : <p>undefinedエラー</p>
           }
-          </Grid>
-          <Grid item xs={12} sm={6} style={{ display: graphReDisplay}}>
+        </Grid>
+        <Grid item xs={12} sm={6} style={{ display: graphReDisplay}}>
         {lookRecommend !== undefined
           && (artistInfo.genres) !== undefined
-          && <ul>
+              && <div className="recommend">
+              <Typography component="h6" >
+                {(artistInfo.genres).slice(0, 3).map(
+                  (props, index) =>
+                  <li key={index}>
+                    <Button color="secondary">{props}</Button>
+                  </li>)}
+                のジャンルで{selectedTrack.trackName}に似ている曲がこちら
+              </Typography>
+              <ul>
               {lookRecommend.map((props) =>
                 <li
                 key={props.id}
@@ -117,22 +126,23 @@ const Search = (props) => {
                     albumUrl={props.album.images[1].url}
                     artistName={props.album.artists[0].name}
                     trackName={props.name}
-                    previewUrl={props.preview_url}
-                    >
-                    </TrackCard>
+                    previewUrl={props.preview_url}>
+                  </TrackCard>
                 </li>
               )}
-            </ul>
+            </ul></div>
         }
         </Grid>
         </Grid>
+        <Button color="secondary"　onClick={() => setTrail((state) => !state)}>リスト表示</Button>
         <Button color="secondary" onClick={() => {setGraphReDisplay("block")}}>グラフ表示</Button>
         <Button color="secondary" onClick={() => {setGraphReDisplay("none")}}>グラフ非表示</Button>
         <Typography variant="h6">TrackList</Typography>
         {itemResult !== undefined
-          ? itemResult.length === 0
-            ? <p>そんな曲ないわ</p>
-            : <ul>
+          && itemResult.length === 0
+          ? <p>そんな曲ないわ</p>
+          :
+              <ul>
               {itemResult.map((props) =>
                 <li
                   key={props.id}
@@ -143,16 +153,17 @@ const Search = (props) => {
                     trackArtistName: props.artists[0].name,
                     trackPopularity: props.popularity
                   })}>
+                    <Trail open={open}>
                     <TrackCard
                     albumUrl={props.album.images[1].url}
                     artistName={props.album.artists[0].name}
                     trackName={props.name}
                     previewUrl={props.preview_url}>
-                    </TrackCard>
+                  </TrackCard>
+              </Trail>
                 </li>
               )}
             </ul>
-          : <p>wait a minute</p>
         }
         </div>
         </div>
