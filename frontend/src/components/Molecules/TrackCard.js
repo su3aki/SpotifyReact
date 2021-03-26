@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-import ReactAudioPlayer from "react-audio-player"
+import PlayButton from 'react-play-button'
 
 const TrackCard = (props) => {
 
@@ -30,6 +30,7 @@ const TrackCard = (props) => {
 			color: "#a699a2",
 		}
 	}));
+	const [play, { stop, isPlaying }] = useState(props.previewUrl)
 	const classes = useStyles();
 	const theme = useTheme()
 	return (
@@ -48,13 +49,19 @@ const TrackCard = (props) => {
             {props.artistName}
 							</Typography>
 						</div>
-						{props.previewUrl === null
-							? <Typography>
+						{props.previewUrl !== 0
+							&& props.previewUrl === null
+							?<Typography>
 								再生不可
 							</Typography>
-								:<ReactAudioPlayer
-							src={props.previewUrl}
-							controls/>
+							: <PlayButton
+								active={isPlaying}
+								iconColor="var(--color-background)"
+                idleBackgroundColor="var(--color-text)"
+								activeBackgroundColor="var(--color-primary)"
+								url={props.previewUrl}
+                play={play}
+                stop={stop}/>
 						}
           </CardContent>
 				</div>

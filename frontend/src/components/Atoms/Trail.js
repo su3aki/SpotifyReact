@@ -1,6 +1,5 @@
 import React from 'react'
 import { useTrail, a } from 'react-spring'
-import './Trail.css'
 
 const Trail = ({ open, children, ...props }) => {
   const items = React.Children.toArray(children)

@@ -78,7 +78,7 @@ const Search = (props) => {
           setReTrackInfo={setReTrackInfo}/>
         {/* グラフコンポーネントへの値設定 */}
         <Grid container direction="row">
-        <Grid item xs={12} sm={6} style={{ display: graphReDisplay}}>
+          <Grid item xs={12} sm={6} style={{ display: graphReDisplay}}>
           {trackInfo.data !== undefined
             && reTrackInfo.data !== undefined
               && <ParamsGraph
@@ -123,8 +123,9 @@ const Search = (props) => {
                   reTrackPopularity: props.popularity
                 })}>
                   <TrackCard
-                    albumUrl={props.album.images[1].url}
+                    audioId={props.id}
                     artistName={props.album.artists[0].name}
+                    albumUrl={props.album.images[1].url}
                     trackName={props.name}
                     previewUrl={props.preview_url}>
                   </TrackCard>
@@ -134,7 +135,7 @@ const Search = (props) => {
         }
         </Grid>
         </Grid>
-        <Button color="secondary"　onClick={() => setTrail((state) => !state)}>リスト表示</Button>
+        <Button color="secondary" onClick={() => setTrail((state) => !state)}>トラックリスト</Button>
         <Button color="secondary" onClick={() => {setGraphReDisplay("block")}}>グラフ表示</Button>
         <Button color="secondary" onClick={() => {setGraphReDisplay("none")}}>グラフ非表示</Button>
         <Typography variant="h6">TrackList</Typography>
@@ -155,8 +156,9 @@ const Search = (props) => {
                   })}>
                     <Trail open={open}>
                     <TrackCard
-                    albumUrl={props.album.images[1].url}
+                    audioId={props.id}
                     artistName={props.album.artists[0].name}
+                    albumUrl={props.album.images[1].url}
                     trackName={props.name}
                     previewUrl={props.preview_url}>
                   </TrackCard>

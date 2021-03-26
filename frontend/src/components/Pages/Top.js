@@ -6,7 +6,6 @@ import {
   makeStyles
 } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
-import NeonButton from '../Atoms/NeonButton'
 import Typography from '@material-ui/core/Typography'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import './Top.css'
@@ -82,7 +81,6 @@ const Top = () => {
           : <Search token={token} wordFormData={wordFormData} />
         }
         </ThemeProvider>
-        <NeonButton></NeonButton>
         </div>
     )
   }
