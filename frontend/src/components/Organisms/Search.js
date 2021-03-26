@@ -10,6 +10,9 @@ import Trail from '../Atoms/Trail'
 import { Button, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
 import Grid from '@material-ui/core/Grid'
+import Slider from '@material-ui/core/Slider';
+import VolumeDown from '@material-ui/icons/VolumeDown';
+import VolumeUp from '@material-ui/icons/VolumeUp';
 import './Search.css'
 
 const Search = (props) => {
@@ -33,6 +36,11 @@ const Search = (props) => {
   const [reTrackInfo, setReTrackInfo] = useState("")
   const [graphReDisplay, setGraphReDisplay] = useState("none")
   const [open, setTrail] = useState(true)
+  const [volumeToggle, setVolumeToggle] = useState(0.2)
+
+  const handleChange = (event, newValue) => {
+    setVolumeToggle(newValue);
+  };
   const token = props.token
   const wordFormData = props.wordFormData
 
@@ -75,7 +83,31 @@ const Search = (props) => {
         {/* 選ばれた類似曲のパラメータ取得 */}
         <ReTrackParams token={token}
           id={selectedRecommend.reTrackId}
-          setReTrackInfo={setReTrackInfo}/>
+          setReTrackInfo={setReTrackInfo} />
+        {/* 要素表示トグル　音量調節 */}
+        <Grid container spacing={1}>
+          <Grid item>
+            <Button color="secondary"
+              onClick={() => setTrail((state) => !state)}>トラックリスト</Button>
+          </Grid>
+          <Grid item>
+            <Button color="secondary"
+              onClick={() => { setGraphReDisplay("block") }}>グラフ表示</Button>
+            </Grid>
+          <Grid item>
+            <Button color="secondary"
+              onClick={() => { setGraphReDisplay("none") }}>グラフ非表示</Button>
+          </Grid>
+          <Grid item>
+            <VolumeDown />
+          </Grid>
+          <Grid item xs>
+            <Slider value={volumeToggle} color='green' min={0} step={0.001} max={1} onChange={handleChange} aria-labelledby="continuous-slider" />
+          </Grid>
+          <Grid item>
+            <VolumeUp />
+          </Grid>
+        </Grid>
         {/* グラフコンポーネントへの値設定 */}
         <Grid container direction="row">
           <Grid item xs={12} sm={6} style={{ display: graphReDisplay}}>
@@ -127,7 +159,8 @@ const Search = (props) => {
                     artistName={props.album.artists[0].name}
                     albumUrl={props.album.images[1].url}
                     trackName={props.name}
-                    previewUrl={props.preview_url}>
+                    previewUrl={props.preview_url}
+                    volumeToggle={volumeToggle}>
                   </TrackCard>
                 </li>
               )}
@@ -135,9 +168,6 @@ const Search = (props) => {
         }
         </Grid>
         </Grid>
-        <Button color="secondary" onClick={() => setTrail((state) => !state)}>トラックリスト</Button>
-        <Button color="secondary" onClick={() => {setGraphReDisplay("block")}}>グラフ表示</Button>
-        <Button color="secondary" onClick={() => {setGraphReDisplay("none")}}>グラフ非表示</Button>
         <Typography variant="h6">TrackList</Typography>
         {itemResult !== undefined
           && itemResult.length === 0
@@ -160,7 +190,8 @@ const Search = (props) => {
                     artistName={props.album.artists[0].name}
                     albumUrl={props.album.images[1].url}
                     trackName={props.name}
-                    previewUrl={props.preview_url}>
+                    previewUrl={props.preview_url}
+                    volumeToggle={volumeToggle}>
                   </TrackCard>
               </Trail>
                 </li>

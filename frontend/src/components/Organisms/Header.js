@@ -52,6 +52,7 @@ const Header = React.memo(() => {
       secondary: {
         main: '#DF0869'
       }}
+
   })
   theme.typography.h3 = {
   fontSize: '1.2rem',
@@ -73,7 +74,6 @@ ScrollTop.propTypes = {
       <CssBaseline />
       <AppBar>
           <Toolbar>
-
           <Typography color="secondary" variant="h3">Ronshex</Typography>
         </Toolbar>
       </AppBar>
