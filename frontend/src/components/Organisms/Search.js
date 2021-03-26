@@ -47,6 +47,15 @@ const Search = (props) => {
   const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
+    },
+    buttonContainer: {
+      textAlign: 'center'
+    },
+    volumeBar: {
+      flex: 1,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
     }
   }))
   const classes = useStyles()
@@ -86,27 +95,27 @@ const Search = (props) => {
           setReTrackInfo={setReTrackInfo} />
         {/* 要素表示トグル　音量調節 */}
         <Grid container spacing={1}>
-          <Grid item>
-            <Button color="secondary"
+          <Grid item className={classes.buttonContainer} xs={4} sm={2}>
+            <Button  color="secondary"
               onClick={() => setTrail((state) => !state)}>トラックリスト</Button>
           </Grid>
-          <Grid item>
-            <Button color="secondary"
+          <Grid item className={classes.buttonContainer} xs={4} sm={2}>
+            <Button  color="secondary"
               onClick={() => { setGraphReDisplay("block") }}>グラフ表示</Button>
             </Grid>
-          <Grid item>
-            <Button color="secondary"
+          <Grid item className={classes.buttonContainer} xs={4} sm={2}>
+            <Button  color="secondary"
               onClick={() => { setGraphReDisplay("none") }}>グラフ非表示</Button>
-          </Grid>
-          <Grid item>
+            </Grid>
+          <Grid item className={classes.volumeBar} xs={2} sm={1} >
             <VolumeDown />
           </Grid>
-          <Grid item xs>
+          <Grid item className={classes.volumeBar} xs={8} sm={4}>
             <Slider value={volumeToggle} color='green' min={0} step={0.001} max={1} onChange={handleChange} aria-labelledby="continuous-slider" />
           </Grid>
-          <Grid item>
+          <Grid item className={classes.volumeBar} xs={2} sm={1} >
             <VolumeUp />
-          </Grid>
+        </Grid>
         </Grid>
         {/* グラフコンポーネントへの値設定 */}
         <Grid container direction="row">

@@ -10,7 +10,6 @@ import Typography from '@material-ui/core/Typography'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import './Top.css'
 
-
 const Top = () => {
   const [token, setToken] = useState("")
   const [wordFormData, setWordFormData] = useState("")
