@@ -47,6 +47,7 @@ const Search = (props) => {
   const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
+      paddingTop: 10
     },
     buttonContainer: {
       display: 'flex',
