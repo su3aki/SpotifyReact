@@ -100,7 +100,7 @@ const TrackCard = (props) => {
 									active={playing}
 									play={handleOnPlay}
 									stop={handleOnStop}
-									size={30}
+									size={40}
 									progressCircleWidth={0}
 									activeBackgroundColor="#1db954"
 									idleBackgroundColor="#DF0869"

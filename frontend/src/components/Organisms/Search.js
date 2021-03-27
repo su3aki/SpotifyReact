@@ -8,9 +8,12 @@ import TrackCard from '../Molecules/TrackCard'
 import TrackParams from '../Molecules/TrackParams'
 import Trail from '../Atoms/Trail'
 import { Button, Typography } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
+import { makeStyles } from '@material-ui/styles'
+import MuiAlert from '@material-ui/lab/Alert';
 import Slider from '@material-ui/core/Slider';
+import Snackbar from '@material-ui/core/Snackbar';
 import VolumeDown from '@material-ui/icons/VolumeDown';
 import VolumeUp from '@material-ui/icons/VolumeUp';
 import './Search.css'
@@ -35,14 +38,24 @@ const Search = (props) => {
   })
   const [reTrackInfo, setReTrackInfo] = useState("")
   const [graphReDisplay, setGraphReDisplay] = useState("none")
-  const [open, setTrail] = useState(true)
+  const [trailOpen, setTrailOpen] = useState(true)
+  const [snackBarOpen, setSnackBarOpen] = useState(false)
   const [volumeToggle, setVolumeToggle] = useState(0.2)
 
+  const Alert = (props) =>{
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
   const handleChange = (event, newValue) => {
     setVolumeToggle(newValue);
   };
   const token = props.token
   const wordFormData = props.wordFormData
+  const handleSnackBarOpen = () => {
+    setSnackBarOpen(true)
+  }
+  const handleSnackBarClose = () => {
+    setSnackBarOpen(false)
+  }
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -55,14 +68,32 @@ const Search = (props) => {
       justifyContent: 'center',
       whiteSpace: "nowrap"
     },
+    snackBar: {
+      width: '80%',
+    },
     volumeBar: {
       flex: 1,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center'
-    }
+    },
   }))
   const classes = useStyles()
+  const theme = createMuiTheme({
+    overrides: {
+      MuiSlider: {
+        rail: {
+          color: '#db5dfe'
+        },
+        root: {
+          color: '#FFF'
+        },
+        track: {
+          color: '#1db954'
+        },
+      }
+    }
+  })
   console.log(artistInfo.genres)
   //trackParamsは曲の分析結果　trackInfoに入る
   return (
@@ -78,6 +109,14 @@ const Search = (props) => {
           trackName={selectedTrack.trackName}
           trackArtist={selectedTrack.trackArtist}
           setTrackInfo={setTrackInfo} />
+        {/* 曲を選んだ通知 */}
+        <div className={classes.snackBar}>
+            <Snackbar open={snackBarOpen} autoHideDuration={4000} onClose={handleSnackBarClose}>
+              <Alert  severity="success">
+                楽曲の解析完了！パラメータグラフとおすすめ曲が準備されました！
+              </Alert>
+            </Snackbar>
+        </div>
         {/* 選ばれた曲のアーティスト情報を取得 */}
         {/* 発火条件：トラック選択完了後 */}
         { selectedTrack.length !== 0
@@ -101,7 +140,7 @@ const Search = (props) => {
         <Grid container spacing={0}>
           <Grid item className={classes.buttonContainer} xs={4} sm={2}>
             <Button variant="outlined" color="secondary"
-              onClick={() => setTrail((state) => !state)}>トラックリスト</Button>
+              onClick={() => setTrailOpen((state) => !state)}>トラックリスト</Button>
           </Grid>
           <Grid item className={classes.buttonContainer} xs={4} sm={2}>
             <Button variant="outlined" color="secondary"
@@ -115,7 +154,9 @@ const Search = (props) => {
             <VolumeDown />
           </Grid>
           <Grid item className={classes.volumeBar} xs={8} sm={4}>
-            <Slider value={volumeToggle} color='green' min={0} step={0.001} max={1} onChange={handleChange} aria-labelledby="continuous-slider" />
+              <ThemeProvider theme={theme}>
+              <Slider value={volumeToggle} color='green' min={0} step={0.001} max={1} onChange={handleChange} aria-labelledby="continuous-slider" />
+              </ThemeProvider>
           </Grid>
           <Grid item className={classes.volumeBar} xs={2} sm={1} >
             <VolumeUp />
@@ -145,7 +186,8 @@ const Search = (props) => {
             ReValence={reTrackInfo.data.valence}
             />
           }
-        </Grid>
+          </Grid>
+        {/* 類似曲の表示条件分岐 */}
         <Grid item xs={12} sm={6} style={{ display: graphReDisplay}}>
         {lookRecommend !== undefined
           && (artistInfo.genres) !== undefined
@@ -187,7 +229,7 @@ const Search = (props) => {
           && itemResult.length === 0
           ? <p>そんな曲ないわ</p>
           :
-              <ul>
+              <ul onClick={handleSnackBarOpen}>
               {itemResult.map((props) =>
                 <li
                   key={props.id}
@@ -198,7 +240,7 @@ const Search = (props) => {
                     trackArtistName: props.artists[0].name,
                     trackPopularity: props.popularity
                   })}>
-                    <Trail open={open}>
+                    <Trail open={trailOpen}>
                     <TrackCard
                     audioId={props.id}
                     artistName={props.album.artists[0].name}
