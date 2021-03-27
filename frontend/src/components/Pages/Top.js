@@ -75,7 +75,9 @@ const Top = () => {
         {wordFormData.length === 0
             ?
             <Typography variant="h5">
-              <br/>検索結果がここに出ます
+              <br />楽曲を検索
+              <br />曲を選択
+              <br />グラフ表示を押すと・・・？
             </Typography>
           : <Search token={token} wordFormData={wordFormData} />
         }

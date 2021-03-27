@@ -49,7 +49,10 @@ const Search = (props) => {
       flexGrow: 1,
     },
     buttonContainer: {
-      textAlign: 'center'
+      display: 'flex',
+      textAlign: 'center',
+      justifyContent: 'center',
+      whiteSpace: "nowrap"
     },
     volumeBar: {
       flex: 1,
@@ -94,17 +97,17 @@ const Search = (props) => {
           id={selectedRecommend.reTrackId}
           setReTrackInfo={setReTrackInfo} />
         {/* 要素表示トグル　音量調節 */}
-        <Grid container spacing={1}>
+        <Grid container spacing={0}>
           <Grid item className={classes.buttonContainer} xs={4} sm={2}>
-            <Button  color="secondary"
+            <Button variant="outlined" color="secondary"
               onClick={() => setTrail((state) => !state)}>トラックリスト</Button>
           </Grid>
           <Grid item className={classes.buttonContainer} xs={4} sm={2}>
-            <Button  color="secondary"
+            <Button variant="outlined" color="secondary"
               onClick={() => { setGraphReDisplay("block") }}>グラフ表示</Button>
             </Grid>
           <Grid item className={classes.buttonContainer} xs={4} sm={2}>
-            <Button  color="secondary"
+            <Button variant="outlined" color="secondary"
               onClick={() => { setGraphReDisplay("none") }}>グラフ非表示</Button>
             </Grid>
           <Grid item className={classes.volumeBar} xs={2} sm={1} >
@@ -169,6 +172,7 @@ const Search = (props) => {
                     albumUrl={props.album.images[1].url}
                     trackName={props.name}
                     previewUrl={props.preview_url}
+                    spotifyUrl={props.external_urls.spotify}
                     volumeToggle={volumeToggle}>
                   </TrackCard>
                 </li>
@@ -200,6 +204,7 @@ const Search = (props) => {
                     albumUrl={props.album.images[1].url}
                     trackName={props.name}
                     previewUrl={props.preview_url}
+                    spotifyUrl={props.external_urls.spotify}
                     volumeToggle={volumeToggle}>
                   </TrackCard>
               </Trail>
