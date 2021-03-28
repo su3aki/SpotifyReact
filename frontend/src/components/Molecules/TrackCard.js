@@ -4,10 +4,11 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-import PlayButton from 'react-play-button'
 import ReactHowler from 'react-howler'
 import {ReactComponent as Logo } from '../Atoms/SpotifyLogo.svg'
-
+import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
+import NotInterestedIcon from '@material-ui/icons/NotInterested';
+import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
 
 const TrackCard = (props) => {
 
@@ -66,18 +67,16 @@ const TrackCard = (props) => {
 	return (
 		<div>
 			<Card className={classes.root} elevation={2}>
-				<CardMedia
+				<CardMedia onClick={() => setPlaying((state) => !state)}
 					className={classes.cover}
 					image={props.albumUrl}/>
-        <div className={classes.details}>
+        <div className={classes.details} >
 					<CardContent className={classes.content}>
             <Typography component="h6" variant="h6">
               {props.trackName}
 						</Typography>
 						<div className={classes.subtitle}>
 							<div className={classes.spotifyButton}>
-						{/* <a className={classes.link} href={props.spotifyUrl}　target="_blank" rel="noopener noreferrer">
-						</a> */}
 						</div>
           <Typography variant="subtitle1">
             {props.artistName}
@@ -87,14 +86,14 @@ const TrackCard = (props) => {
 						<Logo onClick={() => { window.open(props.spotifyUrl) }}/>
 						{props.previewUrl !== 0
 							&& props.previewUrl !== null
-							&&<>
+							?<>
 								<ReactHowler
 								format="mp3"
 								playing={playing}
 								src={props.previewUrl}
 								volume={Volume}
-								/>
-								<PlayButton
+									/>
+								{/* <PlayButton
 									src={props.previewUrl}
 									onClick={() => setPlaying((state) => !state)}
 									active={playing}
@@ -106,8 +105,15 @@ const TrackCard = (props) => {
 									idleBackgroundColor="#DF0869"
 									stopIconColor= "#1e1022"
 									playIconColor="#1e1022"
-								/>
+								/> */}
+									{playing
+										? <PauseCircleOutlineIcon style={{ color: "#ffbe0b",fontSize: 40 }}
+												onClick={() => setPlaying(false)} />
+										: <PlayCircleOutlineIcon style={{ color: "#ff006e",fontSize: 40 }}
+												onClick={() => setPlaying(true)} />
+									}
 								</>
+								: <NotInterestedIcon style={{ color: "#FFF", fontSize:40 }}/>
 							}</div>
           </CardContent>
 				</div>

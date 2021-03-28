@@ -4,7 +4,7 @@ import axios from 'axios'
 const QueryTracks = React.memo((props) => {
   useEffect(() => {
     //曲名単語検索
-    axios(`https://api.spotify.com/v1/search?query=${props.wordFormData}&type=track&market=US&limit=10`, {
+    axios(`https://api.spotify.com/v1/search?query=${props.wordFormData}&type=track&limit=20`, {
       method: "GET",
       headers: {
         Authorization: "Bearer " + props.token,

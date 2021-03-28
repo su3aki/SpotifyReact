@@ -77,12 +77,6 @@ ScrollTop.propTypes = {
           <Typography color="secondary" variant="h3">Ronshex</Typography>
         </Toolbar>
       </AppBar>
-      <Toolbar id="back-to-top-anchor" />
-      <ScrollTop>
-        <Fab color="secondary" size="small" aria-label="scroll back to top">
-          <KeyboardArrowUpIcon />
-        </Fab>
-      </ScrollTop>
       </ThemeProvider>
     </React.Fragment>
   )

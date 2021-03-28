@@ -64,7 +64,7 @@ const Top = () => {
             id="standard-basic"
             InputProps={{ classes: classes }}
             InputLabelProps={{ classes: labelClasses }}
-            label="trackname?"
+            label="Trackname? or Artistname?"
             value={wordFormData}
             fullWidth
             variant="filled"

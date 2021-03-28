@@ -224,12 +224,15 @@ const Search = (props) => {
         }
         </Grid>
         </Grid>
-        <Typography variant="h6">TrackList</Typography>
+        <Typography variant="subtitle2">
+          <br />曲をクリックすると解析が始まります。
+          <br />再生/停止はアートワークでも操作可能です。
+        </Typography>
         {itemResult !== undefined
           && itemResult.length === 0
           ? <p>そんな曲ないわ</p>
           :
-              <ul onClick={handleSnackBarOpen}>
+          <ul onClick={handleSnackBarOpen}>
               {itemResult.map((props) =>
                 <li
                   key={props.id}
