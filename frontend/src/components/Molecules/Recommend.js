@@ -12,9 +12,9 @@ const Recommend = (props) => {
         Accept: "application/json",
         "Content-type": "application/json"}
     }).then((recommendResponse) => {
-			props.setLookRecommend(recommendResponse.data.tracks)
+      props.setLookRecommend(recommendResponse.data.tracks)
       console.log(recommendResponse.data)
-		})
+    })
     .catch((err) => {
         console.log("err:", err)
       })

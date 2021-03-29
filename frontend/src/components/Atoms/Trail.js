@@ -17,10 +17,10 @@ const Trail = ({ open, children, ...props }) => {
           <a.div
             key={items[index]}
             className="trails-text"
-						style={{
-							...rest,
-							transform: x.interpolate((x) => `translate3d(${x}px,0,0`)
-						}}>
+            style={{
+              ...rest,
+              transform: x.interpolate((x) => `translate3d(${x}px,0,0`)
+            }}>
             <a.div style={{ height }}>{items[index]}</a.div>
           </a.div>
         ))}

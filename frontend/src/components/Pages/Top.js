@@ -2,9 +2,7 @@ import React, { useState } from 'react'
 import Credentials from '../Molecules/Credentials'
 import Header from '../Organisms/Header'
 import Search from '../Organisms/Search'
-import {
-  makeStyles
-} from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'

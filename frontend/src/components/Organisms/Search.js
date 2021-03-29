@@ -28,6 +28,7 @@ const Search = (props) => {
     trackArtistName: "",
     trackArtistId: "",
     trackArtistGenres: "",
+    trackArtworkUrl: "",
     trackPopularity: ""
   })
   const [artistInfo, setArtistInfo] = useState("")
@@ -36,6 +37,7 @@ const Search = (props) => {
     reTrackId: "",
     reTrackName: "none",
     reTrackPopularity: "",
+    reTrackArtwork: ""
   })
   const [reTrackInfo, setReTrackInfo] = useState("")
   const [graphReDisplay, setGraphReDisplay] = useState("none")
@@ -177,14 +179,16 @@ const Search = (props) => {
             FirstPopularity={selectedTrack.trackPopularity}
             FirstTempo={trackInfo.data.tempo}
             FirstValence={trackInfo.data.valence}
+            FirstArtwork={selectedTrack.trackArtworkUrl}
         // サジェストで選んだ曲のパラメータをグラフに投入
             reTrackName={selectedRecommend.reTrackName}
             ReDanceAbility={reTrackInfo.data.danceability}
             ReEnergy={reTrackInfo.data.energy}
             ReLoudness={reTrackInfo.data.loudness}
-            RePopularity={selectedTrack.trackPopularity}
+            RePopularity={selectedRecommend.reTrackPopularity}
             ReTempo={reTrackInfo.data.tempo}
             ReValence={reTrackInfo.data.valence}
+            ReArtwork={selectedRecommend.reTrackArtwork}
             />
           }
           </Grid>
@@ -205,7 +209,8 @@ const Search = (props) => {
               {lookRecommend.map((props) =>
                 <li
                 key={props.id}
-                onClick={() => setSelectedRecommend({
+                  onClick={() => setSelectedRecommend({
+                  reTrackArtwork: props.album.images[1].url,
                   reTrackId: props.id,
                   reTrackName: props.name,
                   reTrackPopularity: props.popularity
@@ -213,7 +218,7 @@ const Search = (props) => {
                   <TrackCard
                     audioId={props.id}
                     artistName={props.album.artists[0].name}
-                    albumUrl={props.album.images[1].url}
+                    artworkUrl={props.album.images[1].url}
                     trackName={props.name}
                     previewUrl={props.preview_url}
                     spotifyUrl={props.external_urls.spotify}
@@ -244,13 +249,14 @@ const Search = (props) => {
                     trackName: props.name,
                     trackArtistId: props.artists[0].id,
                     trackArtistName: props.artists[0].name,
-                    trackPopularity: props.popularity
+                    trackArtworkUrl: props.album.images[1].url,
+                    trackPopularity: props.popularity,
                   })}>
                     <Trail open={trailOpen}>
                     <TrackCard
                     audioId={props.id}
                     artistName={props.album.artists[0].name}
-                    albumUrl={props.album.images[1].url}
+                    artworkUrl={props.album.images[1].url}
                     trackName={props.name}
                     previewUrl={props.preview_url}
                     spotifyUrl={props.external_urls.spotify}
