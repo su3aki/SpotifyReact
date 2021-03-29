@@ -12,6 +12,7 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/styles'
 import MuiAlert from '@material-ui/lab/Alert';
+import NotInterestedIcon from '@material-ui/icons/NotInterested';
 import Slider from '@material-ui/core/Slider';
 import Snackbar from '@material-ui/core/Snackbar';
 import VolumeDown from '@material-ui/icons/VolumeDown';
@@ -227,6 +228,8 @@ const Search = (props) => {
         <Typography variant="subtitle2">
           <br />曲をクリックすると解析が始まります。
           <br />再生/停止はアートワークでも操作可能です。
+          <br /><NotInterestedIcon style={{ color: "#FFF",fontSize: 15 }} />
+          は権利元によりプレビューが許可されていません。
         </Typography>
         {itemResult !== undefined
           && itemResult.length === 0

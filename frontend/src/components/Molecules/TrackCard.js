@@ -15,12 +15,6 @@ const TrackCard = (props) => {
 	const [playing, setPlaying] = useState(false)
 	const Volume = (props.volumeToggle)
 
-	const handleOnPlay = () => {
-    setPlaying(true)
-	}
-	const handleOnStop = () => {
-		setPlaying(false)
-	}
 	const useStyles = makeStyles((theme) => ({
 		root: {
 			display: "flex",
@@ -29,18 +23,18 @@ const TrackCard = (props) => {
 			padding: 0,
 			height: 150
 		},
-			details: {
-				width: 'calc(100% - 160px)',
-				height: 150,
+		details: {
+			width: 'calc(100% - 160px)',
+			height: 150,
 				"&:last-child": {
 					height: 80
 				}
-			},
-			content: {
-				textOverflow: "ellipsis",
-				overflow: "hidden",
-				whiteSpace: "nowrap",
-				paddingLeft: 10,
+		},
+		content: {
+			textOverflow: "ellipsis",
+			overflow: "hidden",
+			whiteSpace: "nowrap",
+			paddingLeft: 10,
 				"&:last-child": {
 					padding: 10
 				}
@@ -93,19 +87,6 @@ const TrackCard = (props) => {
 								src={props.previewUrl}
 								volume={Volume}
 									/>
-								{/* <PlayButton
-									src={props.previewUrl}
-									onClick={() => setPlaying((state) => !state)}
-									active={playing}
-									play={handleOnPlay}
-									stop={handleOnStop}
-									size={40}
-									progressCircleWidth={0}
-									activeBackgroundColor="#1db954"
-									idleBackgroundColor="#DF0869"
-									stopIconColor= "#1e1022"
-									playIconColor="#1e1022"
-								/> */}
 									{playing
 										? <PauseCircleOutlineIcon style={{ color: "#ffbe0b",fontSize: 40 }}
 												onClick={() => setPlaying(false)} />
