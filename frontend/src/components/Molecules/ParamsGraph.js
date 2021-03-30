@@ -65,20 +65,24 @@ const ParamsGraph = React.memo((props) => {
   }
   return (
     <div>
-      <Radar data={data}
-        options={myOptions}
-        width={600}
-        height={600} />
       <Grid container direction="row">
-        <Grid item xs={6} sm={6}>
+        {(props.FirstArtwork).length !== 0
+          &&<Grid item xs={6} sm={2}>
           <img src={props.FirstArtwork}
-          alt="seedAlbum" />
-      </Grid>
-        <Grid item xs={6} sm={6}>
+          width="200" height="200"/>
+        </Grid>
+        }
+        {(props.ReArtwork).length !==0
+          && <Grid item xs={6} sm= {2}>
           <img src={props.ReArtwork}
-          alt="recommendAlbum"/>
+          width="200" height="200"/>
       </Grid>
+        }
       </Grid>
+        <Radar data={data}
+          options={myOptions}
+          width={600}
+          height={600} />
     </div>
   )
 })

@@ -88,9 +88,9 @@ const TrackCard = (props) => {
                 volume={Volume}
                 />
                 {playing
-                  ? <PauseCircleOutlineIcon style={{ color: "#ffbe0b",fontSize: 40 }}
+                  ? <PauseCircleOutlineIcon style={{ color: "#ff006e",fontSize: 40 }}
                     onClick={() => setPlaying(false)} />
-                  : <PlayCircleOutlineIcon style={{ color: "#ff006e",fontSize: 40 }}
+                  : <PlayCircleOutlineIcon style={{ color: "#1db954",fontSize: 40 }}
                     onClick={() => setPlaying(true)} />
                 }
                 </>
