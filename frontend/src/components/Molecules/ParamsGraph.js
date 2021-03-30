@@ -4,11 +4,11 @@ import Grid from '@material-ui/core/Grid'
 
 const ParamsGraph = React.memo((props) => {
   const ShrinkedPopularity = props.FirstPopularity * 0.01
-  const ShrinkedLoudness = (props.FirstLoudness + 10) * 0.1
+  const ShrinkedLoudness = (props.FirstLoudness + 70) * 0.01
   const ShrinkedTempo = props.FirstTempo * 0.005
 
   const ReShPopularity = props.RePopularity * 0.01
-  const ReShLoudness = (props.ReLoudness + 60) * 0.01
+  const ReShLoudness = (props.ReLoudness + 70) * 0.01
   const ReShTempo = props.ReTempo * 0.005
 
   const data = {
