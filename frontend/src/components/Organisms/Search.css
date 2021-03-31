@@ -5,6 +5,7 @@
 }
 .tracks ul {
   padding: 0px;
+  margin: 0px;
 }
 .tracks li {
   list-style: none;

@@ -2,9 +2,9 @@ import React from 'react'
 import CountUp from 'react-countup'
 import { Radar } from 'react-chartjs-2'
 import Grid from '@material-ui/core/Grid'
-import { Typography } from '@material-ui/core'
+import { createMuiTheme, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/styles'
-import { color } from '@material-ui/system'
+import { ThemeProvider } from '@material-ui/styles'
 
 
 const ParamsGraph = React.memo((props) => {
@@ -49,7 +49,7 @@ const ParamsGraph = React.memo((props) => {
   }
   const myOptions = {
     layout: {
-      padding: 30
+      padding: 10
     },
     scale: {
       angleLines: {
@@ -60,7 +60,7 @@ const ParamsGraph = React.memo((props) => {
         drawBorder: true,
       },
       pointLabels :{
-        fontSize: 15,
+        fontSize: 13.5
       },
       ticks: {
         display: false,
@@ -71,13 +71,31 @@ const ParamsGraph = React.memo((props) => {
   const useStyles = makeStyles((theme) => ({
     bpm: {
       color: '#DF0869',
-      fontSize: '1.5rem',
     },
     bpmStyle: {
       display: "inline-flex",
       justifyContent: 'center'
     }
   }))
+  const theme = createMuiTheme()
+  theme.typography.h3 = {
+  fontSize: '1.2rem',
+  '@media (min-width:600px)': {
+    fontSize: '1.5rem',
+  },
+  [theme.breakpoints.up('md')]: {
+    fontSize: '2.4rem',
+    },
+  }
+  theme.typography.h4 = {
+  fontSize: '1.0rem',
+  '@media (min-width:600px)': {
+    fontSize: '1.3rem',
+  },
+  [theme.breakpoints.up('md')]: {
+    fontSize: '2.0rem',
+    },
+  }
   const classes = useStyles()
   return (
   <>
@@ -85,12 +103,12 @@ const ParamsGraph = React.memo((props) => {
     options={myOptions}
     width={600}
         height={600} />
-
+  <ThemeProvider theme={theme}>
   <Grid container direction="row">
     {(props.FirstTempo) !== undefined
       &&(props.FirstTempo).length !== 0
-          && <Grid item xs={6} className={classes.bpmStyle}>
-          <Typography className={classes.bpm}>
+      && <Grid item xs={6} className={classes.bpmStyle}>
+          <Typography className={classes.bpm} variant="h4">
           BPM
           </Typography>
           <Typography variant="h3" style={{ color: "#1db954" }}>
@@ -100,8 +118,8 @@ const ParamsGraph = React.memo((props) => {
     }
     {(props.ReTempo) !== undefined
       &&(props.ReTempo).length !== 0
-        && <Grid item xs={6} className={classes.bpmStyle}>
-          <Typography className={classes.bpm}>
+      && <Grid item xs={6} className={classes.bpmStyle}>
+          <Typography className={classes.bpm} variant="h4">
           BPM
           </Typography>
           <Typography variant="h3">
@@ -110,6 +128,7 @@ const ParamsGraph = React.memo((props) => {
         </Grid>
     }
   </Grid>
+  </ThemeProvider>
       {/* {(props.FirstArtwork).length !== 0
         &&<Grid item xs={6} sm={2}>
         <img src={props.FirstArtwork}

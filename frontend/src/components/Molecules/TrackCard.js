@@ -4,28 +4,24 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-import ReactHowler from 'react-howler'
 import {ReactComponent as Logo } from '../Atoms/SpotifyLogo.svg'
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import NotInterestedIcon from '@material-ui/icons/NotInterested';
 import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
 
 const TrackCard = (props) => {
-
-  const [playing, setPlaying] = useState(false)
-  const Volume = (props.volumeToggle)
-
+  const [buttonLooks, setButtonLooks] = useState(false)
   const useStyles = makeStyles((theme) => ({
     root: {
       display: "flex",
       backgroundColor: "#1e1022",
       color: "#ff87d6",
       padding: 0,
-      height: 150
+      height: 130
     },
     details: {
-      width: 'calc(100% - 160px)',
-      height: 150,
+      width: 'calc(100% - 150px)',
+      height: 130,
         "&:last-child": {
           height: 80
         }
@@ -40,8 +36,8 @@ const TrackCard = (props) => {
         }
       },
       cover: {
-        width: 150,
-        height: 150
+        width: 130,
+        height: 130
       },
       link: {
         paddingTop: -10
@@ -56,12 +52,40 @@ const TrackCard = (props) => {
       },
     }
   ));
+  const trackUrl = (props.previewUrl)
+  const handleStartPlaying = () => {
+    props.setPlaying(true)
+  }
+  const handleStopPlaying = () => {
+    setButtonLooks(false)
+    props.setPlaying(false)
+  }
+  //音楽が再生されている場合
+  //Search.js再生エンジンにURLを載せ替える
+  const handleMountUrl = () => {
+    setButtonLooks(true)
+    props.setPlaySrc(trackUrl)
+  }
+  //音楽が再生されていない場合
+  //再生指令をエンジンに送りURLをマウント
+  const handlePlayAndMount = () => {
+    setButtonLooks(false);
+    handleStartPlaying();
+    handleMountUrl();
+  }
+  // 音楽が再生されていない場合
+  const handlePlayButton = () =>
+    {
+      props.playing
+        ? handleMountUrl()
+        : handlePlayAndMount()
+  }
   const classes = useStyles();
   const theme = useTheme()
   return (
     <div>
       <Card className={classes.root} elevation={2}>
-        <CardMedia onClick={() => setPlaying((state) => !state)}
+        <CardMedia onClick={() => { handlePlayButton() }}
           className={classes.cover}
           image={props.artworkUrl}/>
         <div className={classes.details} >
@@ -80,21 +104,14 @@ const TrackCard = (props) => {
             <Logo onClick={() => { window.open(props.spotifyUrl) }}/>
             {props.previewUrl !== 0
               && props.previewUrl !== null
-              ?<>
-                <ReactHowler
-                format="mp3"
-                playing={playing}
-                src={props.previewUrl}
-                volume={Volume}
-                />
-                {playing
+              ?<>{buttonLooks
                   ? <PauseCircleOutlineIcon style={{ color: "#ff006e",fontSize: 40 }}
-                    onClick={() => setPlaying(false)} />
+                    onClick={() => { handleStopPlaying() }} />
                   : <PlayCircleOutlineIcon style={{ color: "#1db954",fontSize: 40 }}
-                    onClick={() => setPlaying(true)} />
+                    onClick={() => { handlePlayButton() }} />
                 }
                 </>
-                : <NotInterestedIcon style={{ color: "#FFF", fontSize:40 }}/>
+                : <NotInterestedIcon style={{ color: "#7f7f7f", fontSize:40 }}/>
               }</div>
           </CardContent>
         </div>

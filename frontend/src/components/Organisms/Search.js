@@ -13,13 +13,14 @@ import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/styles'
 import MuiAlert from '@material-ui/lab/Alert';
 import NotInterestedIcon from '@material-ui/icons/NotInterested';
+import ReactHowler from 'react-howler'
 import Slider from '@material-ui/core/Slider';
 import Snackbar from '@material-ui/core/Snackbar';
 import VolumeDown from '@material-ui/icons/VolumeDown';
 import VolumeUp from '@material-ui/icons/VolumeUp';
 import './Search.css'
 
-const Search = (props) => {
+const Search = React.memo((props) => {
   const [itemResult, setItemResult] = useState([])
   const [trackInfo, setTrackInfo] = useState("")
   const [selectedTrack, setSelectedTrack] = useState({
@@ -44,6 +45,9 @@ const Search = (props) => {
   const [trailOpen, setTrailOpen] = useState(true)
   const [snackBarOpen, setSnackBarOpen] = useState(false)
   const [volumeToggle, setVolumeToggle] = useState(0.2)
+  const [playButtonLooks, setPlayButtonLooks] = useState(false)
+  const [playing, setPlaying] = useState(false)
+  const [playSrc, setPlaySrc] = useState("")
 
   const Alert = (props) =>{
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -98,10 +102,16 @@ const Search = (props) => {
     }
   })
   console.log(artistInfo.genres)
+  console.log(playSrc)
+  console.log(playing)
   //trackParamsは曲の分析結果　trackInfoに入る
   return (
     <div className={classes.root}>
       <div className="tracks">
+        {/* 音楽再生コントローラー */}
+        {playSrc.length !== 0
+          &&<ReactHowler format="mp3" playing={playing} src={playSrc} volume={volumeToggle}/>
+        }
         {/* 入力された単語から曲を検索 */}
         <QueryTracks token={token}
           wordFormData={wordFormData}
@@ -198,23 +208,22 @@ const Search = (props) => {
           && (artistInfo.genres) !== undefined
               && <div className="recommend">
               <Typography component="h6" >
+                ジャンル：
                 {(artistInfo.genres).slice(0, 3).map(
                   (props, index) =>
-                  <li key={index}>
-                    <Button color="secondary">{props}</Button>
-                  </li>)}
-                のジャンルで{selectedTrack.trackName}に似ている曲がこちら
+                    <Button color="secondary">{props}</Button>)}
+                <br/>{selectedTrack.trackName}に似ている曲がこちら
               </Typography>
               <ul>
               {lookRecommend.map((props) =>
                 <li
-                key={props.id}
+                  key={props.id}
                   onClick={() => setSelectedRecommend({
-                  reTrackArtwork: props.album.images[1].url,
-                  reTrackId: props.id,
-                  reTrackName: props.name,
-                  reTrackPopularity: props.popularity
-                })}>
+                    reTrackArtwork: props.album.images[1].url,
+                    reTrackId: props.id,
+                    reTrackName: props.name,
+                    reTrackPopularity: props.popularity
+                  })}>
                   <TrackCard
                     audioId={props.id}
                     artistName={props.album.artists[0].name}
@@ -222,7 +231,11 @@ const Search = (props) => {
                     trackName={props.name}
                     previewUrl={props.preview_url}
                     spotifyUrl={props.external_urls.spotify}
-                    volumeToggle={volumeToggle}>
+                    playing={playing}
+                    playButtonLooks={playButtonLooks}
+                    setPlaying={setPlaying}
+                    setPlaySrc={setPlaySrc}
+                    setPlayButtonLooks={setPlayButtonLooks}>
                   </TrackCard>
                 </li>
               )}
@@ -230,10 +243,10 @@ const Search = (props) => {
         }
         </Grid>
         </Grid>
-        <Typography variant="subtitle2">
+        <Typography variant="subtitle2" style={{fontSize: 13}}>
           <br />曲をクリックすると解析が始まります。
           <br />再生/停止はアートワークでも操作可能です。
-          <br /><NotInterestedIcon style={{ color: "#FFF",fontSize: 15 }} />
+          <br /><NotInterestedIcon style={{ color: "#7f7f7f",fontSize: 15 }} />
           は権利元によりプレビューが許可されていません。
         </Typography>
         {itemResult !== undefined
@@ -260,7 +273,9 @@ const Search = (props) => {
                     trackName={props.name}
                     previewUrl={props.preview_url}
                     spotifyUrl={props.external_urls.spotify}
-                    volumeToggle={volumeToggle}>
+                    playing={playing}
+                    setPlaying={setPlaying}
+                    setPlaySrc={setPlaySrc}>
                   </TrackCard>
               </Trail>
                 </li>
@@ -270,5 +285,5 @@ const Search = (props) => {
         </div>
         </div>
   )
-}
+})
 export default Search;
