@@ -50,13 +50,12 @@ const Top = () => {
 })
   const classes = useStyles()
   const labelClasses = useLabelStyles()
-    return (
-      <div className="App">
-        <ThemeProvider theme={theme}>
+  return (
+    <div className="App">
+      <ThemeProvider theme={theme}>
         <Credentials setToken={ setToken }/>
-          <Header />
-          <br/>
-          <Typography variant="h3"><br /><br />Search from here↓</Typography>
+        <Header />
+        <Typography variant="h3"><br/>Search from here↓</Typography>
         <form className={classes.root} noValidate onSubmit={handleSubmit}>
           <TextField
             id="standard-basic"
@@ -67,20 +66,18 @@ const Top = () => {
             fullWidth
             variant="filled"
             color="secondary"
-            onChange={(e) => setWordFormData(e.target.value)}
-            />
+            onChange={(e) => setWordFormData(e.target.value)}/>
         </form>
         {wordFormData.length === 0
-            ?
-            <Typography variant="h5">
-              <br />楽曲を検索
-              <br />曲を選択
-              <br />グラフ表示を押すと・・・？
-            </Typography>
+          ? <Typography variant="h5">
+            <br />楽曲を検索
+            <br />曲を選択
+            <br />グラフ表示を押すと・・・？
+          </Typography>
           : <Search token={token} wordFormData={wordFormData} />
         }
-        </ThemeProvider>
-        </div>
+      </ThemeProvider>
+    </div>
     )
   }
 export default Top;

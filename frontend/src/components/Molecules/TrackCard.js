@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -9,114 +9,108 @@ import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import NotInterestedIcon from '@material-ui/icons/NotInterested';
 import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
 
-const TrackCard = (props) => {
-  const [buttonLooks, setButtonLooks] = useState(false)
+const TrackCard = React.memo((props) => {
   const useStyles = makeStyles((theme) => ({
     root: {
       display: "flex",
       backgroundColor: "#1e1022",
       color: "#ff87d6",
       padding: 0,
-      height: 130
-    },
-    details: {
-      width: 'calc(100% - 150px)',
-      height: 130,
-        "&:last-child": {
-          height: 80
-        }
+      height: 100
     },
     content: {
+      width: 'calc(100% - 160px)',
       textOverflow: "ellipsis",
       overflow: "hidden",
       whiteSpace: "nowrap",
-      paddingLeft: 10,
-        "&:last-child": {
-          padding: 10
-        }
-      },
-      cover: {
-        width: 130,
-        height: 130
-      },
-      link: {
-        paddingTop: -10
-      },
-      playButton: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      },
-      subtitle: {
-        color: "#a699a2",
-      },
+      padding: 10
+
+    },
+    cover: {
+      width: 100,
+      height: 100
+    },
+    trackAndArtist: {
+      width: 'calc(100% - 100px)',
     }
-  ));
-  const trackUrl = (props.previewUrl)
+    ,
+    link: {
+      paddingTop: -10
+    },
+    playButton: {
+      width: 40,
+      height: 'auto',
+      alignItems: 'center',
+    },
+  }));
+  //再生ボタンの条件分岐に使用　デフォルトでは緑のPlay
+  let ButtonLooks = false
+
+  //Search.jsにあるReactHowlerの再生管理
+  //この階層に再生エンジンを置くと再生機構を複数持つ為同時再生されてしまう
   const handleStartPlaying = () => {
     props.setPlaying(true)
   }
   const handleStopPlaying = () => {
-    setButtonLooks(false)
     props.setPlaying(false)
   }
   //音楽が再生されている場合
   //Search.js再生エンジンにURLを載せ替える
   const handleMountUrl = () => {
-    setButtonLooks(true)
-    props.setPlaySrc(trackUrl)
+    props.setPlaySrc(props.previewUrl)
   }
   //音楽が再生されていない場合
   //再生指令をエンジンに送りURLをマウント
   const handlePlayAndMount = () => {
-    setButtonLooks(false);
     handleStartPlaying();
     handleMountUrl();
   }
-  // 音楽が再生されていない場合
   const handlePlayButton = () =>
     {
       props.playing
         ? handleMountUrl()
         : handlePlayAndMount()
   }
+  //マウントされた曲が別の曲であれば再生ボタンをリセット
+  if ((props.previewUrl) === (props.playSrc)) {
+    ButtonLooks = true
+  }
   const classes = useStyles();
   const theme = useTheme()
   return (
     <div>
       <Card className={classes.root} elevation={2}>
-        <CardMedia onClick={() => { handlePlayButton() }}
-          className={classes.cover}
-          image={props.artworkUrl}/>
-        <div className={classes.details} >
-          <CardContent className={classes.content}>
-            <Typography component="h6" variant="h6">
+        {props.previewUrl !== undefined
+          ? <CardMedia onClick={() => { handlePlayButton() }}
+            className={classes.cover}
+            image={props.artworkUrl} />
+          : <CardMedia
+            className={classes.cover}
+            image={props.artworkUrl} />}
+        <CardContent className={classes.content}>
+          <div className={classes.trackAndArtist}>
+            <Typography component="h6" variant="h6" onClick={() => { window.open(props.spotifyUrl) }}>
               {props.trackName}
             </Typography>
-            <div className={classes.subtitle}>
-              <div className={classes.spotifyButton}>
-            </div>
-          <Typography variant="subtitle1">
+          <Typography variant="subtitle1" style={{ color: "#d0d1ff"}}>
             {props.artistName}
-              </Typography>
-            </div>
-            <div className={classes.playButton}>
-            <Logo onClick={() => { window.open(props.spotifyUrl) }}/>
+          </Typography>
+          </div>
+          {/* <Logo onClick={() => { window.open(props.spotifyUrl) }}/> */}
+          </CardContent>
             {props.previewUrl !== 0
               && props.previewUrl !== null
-              ?<>{buttonLooks
-                  ? <PauseCircleOutlineIcon style={{ color: "#ff006e",fontSize: 40 }}
-                    onClick={() => { handleStopPlaying() }} />
-                  : <PlayCircleOutlineIcon style={{ color: "#1db954",fontSize: 40 }}
-                    onClick={() => { handlePlayButton() }} />
-                }
+              ?<>{ButtonLooks
+                ? <PauseCircleOutlineIcon className={classes.playButton} style={{ color: "#ff006e", fontSize: 40 }}
+                onClick={() => { handleStopPlaying() }} />
+                : <PlayCircleOutlineIcon className={classes.playButton} style={{ color: "#1db954",fontSize: 40 }}
+                onClick={() => { handlePlayButton() }} />
+              }
                 </>
-                : <NotInterestedIcon style={{ color: "#7f7f7f", fontSize:40 }}/>
-              }</div>
-          </CardContent>
-        </div>
+                : <NotInterestedIcon className={classes.playButton} style={{ color: "#7f7f7f", fontSize:40 }}/>
+              }
         </Card>
         </div>
   );
-}
+})
 export default TrackCard;

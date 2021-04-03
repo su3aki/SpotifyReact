@@ -4,6 +4,7 @@ import QueryTracks from "../Molecules/QueryTracks"
 import Recommend from '../Molecules/Recommend'
 import ReTrackParams from '../Molecules/ReTrackParams'
 import ParamsGraph from '../Molecules/ParamsGraph'
+import { WaveLoading } from 'react-loadingg';
 import TrackCard from '../Molecules/TrackCard'
 import TrackParams from '../Molecules/TrackParams'
 import Trail from '../Atoms/Trail'
@@ -45,7 +46,6 @@ const Search = React.memo((props) => {
   const [trailOpen, setTrailOpen] = useState(true)
   const [snackBarOpen, setSnackBarOpen] = useState(false)
   const [volumeToggle, setVolumeToggle] = useState(0.2)
-  const [playButtonLooks, setPlayButtonLooks] = useState(false)
   const [playing, setPlaying] = useState(false)
   const [playSrc, setPlaySrc] = useState("")
 
@@ -63,6 +63,14 @@ const Search = React.memo((props) => {
   const handleSnackBarClose = () => {
     setSnackBarOpen(false)
   }
+  const handleSearchView = () => {
+    setGraphReDisplay("none")
+    setTrailOpen(true)
+  }
+  const handleDataView = () => {
+    setGraphReDisplay("block")
+    setTrailOpen(false)
+  }
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -74,6 +82,9 @@ const Search = React.memo((props) => {
       textAlign: 'center',
       justifyContent: 'center',
       whiteSpace: "nowrap"
+    },
+    loading: {
+      verticalAlign: 'middle'
     },
     snackBar: {
       width: '80%',
@@ -109,9 +120,8 @@ const Search = React.memo((props) => {
     <div className={classes.root}>
       <div className="tracks">
         {/* 音楽再生コントローラー */}
-        {playSrc.length !== 0
-          &&<ReactHowler format="mp3" playing={playing} src={playSrc} volume={volumeToggle}/>
-        }
+        {playSrc !== null &&playSrc.length !== 0
+          && <ReactHowler format={"mp3"} playing={playing} src={playSrc} volume={volumeToggle}/>}
         {/* 入力された単語から曲を検索 */}
         <QueryTracks token={token}
           wordFormData={wordFormData}
@@ -124,11 +134,12 @@ const Search = React.memo((props) => {
           setTrackInfo={setTrackInfo} />
         {/* 曲を選んだ通知 */}
         <div className={classes.snackBar}>
-            <Snackbar open={snackBarOpen} autoHideDuration={4000} onClose={handleSnackBarClose}>
-              <Alert  severity="success">
-                楽曲の解析完了！パラメータグラフとおすすめ曲が準備されました！
-              </Alert>
-            </Snackbar>
+          <Snackbar open={snackBarOpen} autoHideDuration={4000} onClose={handleSnackBarClose}>
+            <Alert severity="success" action={
+              <Button size="small" onClick={() => handleDataView()}>open!</Button>}>
+              データグラフとおすすめ曲が準備されました
+            </Alert>
+          </Snackbar>
         </div>
         {/* 選ばれた曲のアーティスト情報を取得 */}
         {/* 発火条件：トラック選択完了後 */}
@@ -151,18 +162,14 @@ const Search = React.memo((props) => {
           setReTrackInfo={setReTrackInfo} />
         {/* 要素表示トグル　音量調節 */}
         <Grid container spacing={0}>
-          <Grid item className={classes.buttonContainer} xs={4} sm={2}>
+          <Grid item className={classes.buttonContainer} xs={6} sm={3}>
             <Button variant="outlined" color="secondary"
-              onClick={() => setTrailOpen((state) => !state)}>トラックリスト</Button>
+              onClick={() => handleDataView()}>データとおすすめ曲</Button>
+            </Grid>
+          <Grid item className={classes.buttonContainer} xs={6} sm={3}>
+            <Button variant="outlined" color="secondary"
+              onClick={() => handleSearchView()}>検索結果</Button>
           </Grid>
-          <Grid item className={classes.buttonContainer} xs={4} sm={2}>
-            <Button variant="outlined" color="secondary"
-              onClick={() => { setGraphReDisplay("block") }}>グラフ表示</Button>
-            </Grid>
-          <Grid item className={classes.buttonContainer} xs={4} sm={2}>
-            <Button variant="outlined" color="secondary"
-              onClick={() => { setGraphReDisplay("none") }}>グラフ非表示</Button>
-            </Grid>
           <Grid item className={classes.volumeBar} xs={2} sm={1} >
             <VolumeDown />
           </Grid>
@@ -176,7 +183,7 @@ const Search = React.memo((props) => {
         </Grid>
         </Grid>
         {/* グラフコンポーネントへの値設定 */}
-        <Grid container direction="row">
+        <Grid container direction="row" spacing={1}>
           <Grid item xs={12} sm={6} style={{ display: graphReDisplay}}>
           {trackInfo.data !== undefined
             && reTrackInfo.data !== undefined
@@ -207,13 +214,11 @@ const Search = React.memo((props) => {
         {lookRecommend !== undefined
           && (artistInfo.genres) !== undefined
               && <div className="recommend">
-              <Typography component="h6" >
-                ジャンル：
+                RecommendList
                 {(artistInfo.genres).slice(0, 3).map(
                   (props, index) =>
                     <Button color="secondary">{props}</Button>)}
-                <br/>{selectedTrack.trackName}に似ている曲がこちら
-              </Typography>
+
               <ul>
               {lookRecommend.map((props) =>
                 <li
@@ -232,10 +237,9 @@ const Search = React.memo((props) => {
                     previewUrl={props.preview_url}
                     spotifyUrl={props.external_urls.spotify}
                     playing={playing}
-                    playButtonLooks={playButtonLooks}
+                    playSrc={playSrc}
                     setPlaying={setPlaying}
-                    setPlaySrc={setPlaySrc}
-                    setPlayButtonLooks={setPlayButtonLooks}>
+                    setPlaySrc={setPlaySrc}>
                   </TrackCard>
                 </li>
               )}
@@ -251,8 +255,8 @@ const Search = React.memo((props) => {
         </Typography>
         {itemResult !== undefined
           && itemResult.length === 0
-          ? <p>そんな曲ないわ</p>
-          :
+          ? <><WaveLoading size={'large'} color="#1db954" speed={1} /></>
+          :<>TrackList
           <ul onClick={handleSnackBarOpen}>
               {itemResult.map((props) =>
                 <li
@@ -274,16 +278,17 @@ const Search = React.memo((props) => {
                     previewUrl={props.preview_url}
                     spotifyUrl={props.external_urls.spotify}
                     playing={playing}
+                    playSrc={playSrc}
                     setPlaying={setPlaying}
                     setPlaySrc={setPlaySrc}>
                   </TrackCard>
               </Trail>
                 </li>
               )}
-            </ul>
+            </ul></>
         }
-        </div>
-        </div>
+      </div>
+    </div>
   )
 })
 export default Search;
