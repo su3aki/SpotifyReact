@@ -8,6 +8,7 @@ import {ReactComponent as Logo } from '../Atoms/SpotifyLogo.svg'
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import NotInterestedIcon from '@material-ui/icons/NotInterested';
 import PauseCircleOutlineIcon from '@material-ui/icons/PauseCircleOutline';
+import { Button } from '@material-ui/core';
 
 const TrackCard = React.memo((props) => {
   const useStyles = makeStyles((theme) => ({
@@ -31,7 +32,7 @@ const TrackCard = React.memo((props) => {
       height: 100
     },
     trackAndArtist: {
-      width: 'calc(100% - 100px)',
+
     }
     ,
     link: {
@@ -48,31 +49,38 @@ const TrackCard = React.memo((props) => {
 
   //Search.jsにあるReactHowlerの再生管理
   //この階層に再生エンジンを置くと再生機構を複数持つ為同時再生されてしまう
-  const handleStartPlaying = () => {
-    props.setPlaying(true)
-  }
-  const handleStopPlaying = () => {
-    props.setPlaying(false)
-  }
+
   //音楽が再生されている場合
   //Search.js再生エンジンにURLを載せ替える
-  const handleMountUrl = () => {
+  const MountUrl = () => {
     props.setPlaySrc(props.previewUrl)
   }
   //音楽が再生されていない場合
   //再生指令をエンジンに送りURLをマウント
-  const handlePlayAndMount = () => {
-    handleStartPlaying();
-    handleMountUrl();
+  const PlayAndMount = () => {
+    MountUrl();
+    props.setPlaying(true)
   }
-  const handlePlayButton = () =>
-    {
-      props.playing
-        ? handleMountUrl()
-        : handlePlayAndMount()
+  //音楽が再生されていない場合
+  //再生指令をエンジンに送りURLをマウント
+  const handleStartPlaying = () => {
+    props.playing
+      ? MountUrl()
+      : PlayAndMount()
+  }
+  const handleStopPlaying = () => {
+    props.setPlaying(false)
+  }
+  //再生停止を一つのボタンで管理
+  const handleStartStop = () => {
+    props.playing
+      ? handleStopPlaying()
+      : handleStartPlaying()
   }
   //マウントされた曲とカードの持つプレビュー曲が同じであれば停止ボタン表示
-  if ((props.previewUrl) === (props.playSrc)) {
+  if (props.playing === false) {
+    ButtonLooks = false
+  }else if (props.previewUrl === props.playSrc) {
     ButtonLooks = true
   }
   const classes = useStyles();
@@ -81,7 +89,7 @@ const TrackCard = React.memo((props) => {
     <div>
       <Card className={classes.root} elevation={2}>
         {props.previewUrl !== undefined
-          ? <CardMedia onClick={() => { handlePlayButton() }}
+          ? <CardMedia onClick={() => { handleStartStop() }}
             className={classes.cover}
             image={props.artworkUrl} />
           : <CardMedia
@@ -89,22 +97,22 @@ const TrackCard = React.memo((props) => {
             image={props.artworkUrl} />}
         <CardContent className={classes.content}>
           <div className={classes.trackAndArtist}>
-            <Typography component="h6" variant="h6" onClick={() => { window.open(props.spotifyUrl) }}>
+            <Typography component="h6" variant="h6">
               {props.trackName}
             </Typography>
           <Typography variant="subtitle1" style={{ color: "#d0d1ff"}}>
+              <Logo onClick={() => { window.open(props.spotifyUrl) }}/>
             {props.artistName}
           </Typography>
           </div>
-          {/* <Logo onClick={() => { window.open(props.spotifyUrl) }}/> */}
           </CardContent>
             {props.previewUrl !== 0
               && props.previewUrl !== null
               ?<>{ButtonLooks
                 ? <PauseCircleOutlineIcon className={classes.playButton} style={{ color: "#ff006e", fontSize: 40 }}
                 onClick={() => { handleStopPlaying() }} />
-                : <PlayCircleOutlineIcon className={classes.playButton} style={{ color: "#1db954",fontSize: 40 }}
-                onClick={() => { handlePlayButton() }} />
+                : <PlayCircleOutlineIcon className={classes.playButton} style={{ color: "#1db954", fontSize: 40 }}
+                onClick={() => { handleStartPlaying() }} />
               }
                 </>
                 : <NotInterestedIcon className={classes.playButton} style={{ color: "#7f7f7f", fontSize:40 }}/>
