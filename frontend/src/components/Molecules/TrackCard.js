@@ -71,7 +71,7 @@ const TrackCard = React.memo((props) => {
         ? handleMountUrl()
         : handlePlayAndMount()
   }
-  //マウントされた曲とカードの持つプレビュー曲と同じであれば停止ボタン表示
+  //マウントされた曲とカードの持つプレビュー曲が同じであれば停止ボタン表示
   if ((props.previewUrl) === (props.playSrc)) {
     ButtonLooks = true
   }
